@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-bg font-sans text-[15px] leading-relaxed text-white antialiased;
+    overflow-x: clip;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid #fbbf24;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: rgba(245, 158, 11, 0.35);
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply absolute left-4 top-3 z-[60] -translate-y-24 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-bg;
+  }
+  .skip-link:focus {
+    @apply translate-y-0;
+  }
+
+  .container-x {
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+  }
+
+  /* Primary pill: white, with the small dot the reference uses. */
+  .btn-primary {
+    @apply inline-flex h-11 items-center gap-2.5 rounded-full bg-white px-5 text-[15px] font-semibold text-bg;
+    transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  .btn-primary:hover {
+    background-color: #e4e4e7;
+  }
+  .btn-primary:active {
+    transform: scale(0.97);
+  }
+  .btn-ghost {
+    @apply inline-flex h-11 items-center rounded-full px-5 text-[15px] font-medium text-white/80 ring-1 ring-inset ring-white/15;
+    transition: color 300ms, background-color 300ms;
+  }
+  .btn-ghost:hover {
+    @apply bg-white/5 text-white;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] ring-1 ring-inset;
+  }
+  .chip {
+    @apply inline-flex items-center rounded-full bg-white/[0.04] px-3.5 py-1.5 text-[13px] text-white/70 ring-1 ring-inset ring-white/10;
+  }
+
+  .text-gradient {
+    background: linear-gradient(100deg, #fb7185 0%, #f43f5e 35%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hairline {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    height: 1px;
+  }
+
+  /* Soft coloured light behind a product window. */
+  .glow-crimson {
+    background: radial-gradient(closest-side, rgba(200, 30, 58, 0.32), transparent);
+  }
+  .glow-amber {
+    background: radial-gradient(closest-side, rgba(245, 158, 11, 0.22), transparent);
+  }
+  .glow-green {
+    background: radial-gradient(closest-side, rgba(16, 185, 129, 0.2), transparent);
+  }
+
+  .noise-bg {
+    background-image: radial-gradient(60% 50% at 50% 0%, rgba(200, 30, 58, 0.16), transparent 70%),
+      radial-gradient(40% 40% at 85% 20%, rgba(245, 158, 11, 0.08), transparent 70%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,126 @@
+/**
+ * Eagle Forge site content. Everything a visitor reads lives here.
+ * Items marked TODO need a real value before launch.
+ */
+export const site = {
+  name: 'Eagle Forge',
+  // TODO: the brief gives no email or phone. Set the address enquiries should go to.
+  email: 'hello@eagleforge.example',
+  address: ['Shop No 4, Mahatma Gandhi Commercial Complex', 'Mahendra Nagar, Gollapudi', 'Vijayawada, Andhra Pradesh 520012'],
+  mapUrl:
+    'https://www.google.com/maps/search/?api=1&query=Mahatma+Gandhi+Commercial+Complex+Mahendra+Nagar+Gollapudi+Vijayawada+520012',
+
+  nav: [
+    { label: 'Solutions', href: '#solutions' },
+    { label: 'How we work', href: '#process' },
+    { label: 'About', href: '#about' },
+    { label: 'Questions', href: '#faq' },
+  ],
+
+  hero: {
+    badge: 'AI integration studio · Vijayawada',
+    title: ['Your business,', 'connected.'],
+    sub: 'Eagle Forge joins your Tally, online store, WhatsApp and devices into one working system, with AI on top. One view of the business, instead of five tools that never talk.',
+  },
+
+  worksWith: ['Tally', 'Shopify', 'WooCommerce', 'WhatsApp Business', 'IoT sensors', 'Your website'],
+
+  solutions: {
+    heading: ['One system.', 'Every tool you use.'],
+    sub: 'Four things we build, joined so the data moves between them on its own.',
+    rows: [
+      {
+        id: 'tally',
+        badge: 'Tally + AI',
+        tone: 'crimson',
+        title: 'Your Tally, finally talking.',
+        body: 'Sales and payments flow from Tally into live dashboards, weekly target-versus-actual reports and district-wise views. Ask a question in plain words and get the answer from your own figures.',
+        chips: ['Live dashboards', 'Weekly reports', 'Ask in plain words'],
+      },
+      {
+        id: 'whatsapp',
+        badge: 'WhatsApp',
+        tone: 'green',
+        title: 'Reminders that send themselves.',
+        body: 'Payment reminders, order updates and campaigns reach customers and dealers on WhatsApp, on the schedule you set. Replies come back to you, and payments are marked in Tally.',
+        chips: ['Payment reminders', 'Dealer updates', 'Campaigns'],
+      },
+      {
+        id: 'store',
+        badge: 'Shopify · WooCommerce',
+        tone: 'amber',
+        title: 'Your store, joined to your books.',
+        body: 'Online orders raise the invoice in Tally, update stock and tell the customer, in seconds and without anyone copying between screens. We build the website too, with enquiries landing in the same place.',
+        chips: ['Order sync', 'Stock updates', 'Websites'],
+      },
+      {
+        id: 'devices',
+        badge: 'IoT',
+        tone: 'crimson',
+        title: 'Devices that report in.',
+        body: 'Sensors and connected machines send their readings to one dashboard. When something drifts, such as a cold room warming up, you hear about it on WhatsApp right away.',
+        chips: ['Live readings', 'Limits you set', 'WhatsApp alerts'],
+      },
+    ],
+  },
+
+  process: {
+    heading: ['From scattered', 'to connected.'],
+    sub: 'Most of our clients already run on Tally and WhatsApp. What they lack is the wiring between them.',
+    steps: [
+      { name: 'Look', body: 'We sit with you and map what you already use: Tally, the store, the WhatsApp groups, the registers, the devices.' },
+      { name: 'Connect', body: 'We join those systems so data moves between them on its own. No double entry, no copying between screens.' },
+      { name: 'Automate', body: 'Reminders, reports and alerts start running by themselves, on the days and times you choose.' },
+      { name: 'Add AI', body: 'Where it helps, AI answers questions about your figures and points out what needs attention. Optional.' },
+    ],
+  },
+
+  about: {
+    heading: 'Built in Vijayawada, for the businesses around it.',
+    body: 'We work with owners who run on Tally and WhatsApp today and want the whole picture without hiring a technical team. Advanced technology, delivered in a way you can trust and use every day.',
+    audiences: ['Small businesses', 'Dealers and distributors', 'Agents', 'Clinics and health providers', 'Investment agents'],
+    values: [
+      ['Innovative', 'AI and automation where they save real hours.'],
+      ['Reliable', 'Systems that run quietly, every day.'],
+      ['Approachable', 'Plain language. No jargon, no lock-in to new software.'],
+    ],
+  },
+
+  faq: {
+    heading: 'Questions',
+    items: [
+      { q: 'Do we have to stop using Tally?', a: 'No. We work with the Tally you already run. Your team keeps entering bills the way it does today; we read the data and put it to work.' },
+      { q: 'Which tools can you connect?', a: 'Tally, Shopify, WooCommerce, WhatsApp, connected devices and your website. If you use something else, ask us and we will tell you plainly whether it can be joined in.' },
+      { q: 'Do we need technical staff?', a: 'No. We set the system up. Day to day, reports and alerts arrive where you already look: on WhatsApp and in a simple dashboard.' },
+      { q: 'Is the AI part required?', a: 'No. The AI features are optional. The connections, reports, reminders and alerts all work without them.' },
+      { q: 'Who do you work with?', a: 'Small businesses, dealers and distributors, agents, clinics and health providers, and investment agents.' },
+      { q: 'Where can we meet you?', a: 'At our office: Shop No 4, Mahatma Gandhi Commercial Complex, Mahendra Nagar, Gollapudi, Vijayawada 520012.' },
+    ],
+  },
+
+  enquiry: {
+    heading: ['Let’s connect', 'your business.'],
+    sub: 'Tick what you run today. We’ll show you what we would join together, then send us a note.',
+    tools: [
+      { id: 'tally', label: 'Tally' },
+      { id: 'whatsapp', label: 'WhatsApp' },
+      { id: 'shopify', label: 'Shopify' },
+      { id: 'woocommerce', label: 'WooCommerce' },
+      { id: 'iot', label: 'Devices and sensors' },
+      { id: 'website', label: 'A website' },
+    ],
+    // Each connection appears when all the tools it needs are ticked.
+    flows: [
+      { needs: ['tally', 'whatsapp'], text: 'Overdue bills in Tally become WhatsApp reminders to the dealer.' },
+      { needs: ['tally'], text: 'Tally sales turn into a weekly target-versus-actual report.' },
+      { needs: ['tally', 'shopify'], text: 'Shopify orders raise the invoice in Tally and update stock.' },
+      { needs: ['tally', 'woocommerce'], text: 'WooCommerce orders raise the invoice in Tally and update stock.' },
+      { needs: ['shopify', 'whatsapp'], text: 'Shopify customers get order and delivery updates on WhatsApp.' },
+      { needs: ['woocommerce', 'whatsapp'], text: 'WooCommerce customers get order and delivery updates on WhatsApp.' },
+      { needs: ['iot', 'whatsapp'], text: 'A sensor reading out of range sends you a WhatsApp alert.' },
+      { needs: ['iot'], text: 'Device readings collect on one dashboard, with limits you set.' },
+      { needs: ['website', 'whatsapp'], text: 'Website enquiries reach WhatsApp the moment they are sent.' },
+      { needs: ['whatsapp'], text: 'Campaigns and reminders go to your customer list on schedule.' },
+    ],
+  },
+}
