@@ -2,6 +2,7 @@ import { useId, useMemo, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { site } from '../config/site.js'
 import Reveal from './Reveal.jsx'
+import ParticleCanvas from './ParticleCanvas.jsx'
 
 export default function Enquiry() {
   const { enquiry } = site
@@ -30,6 +31,7 @@ export default function Enquiry() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden py-28 sm:py-36">
       <div aria-hidden="true" className="glow-crimson pointer-events-none absolute left-1/2 top-24 -z-10 h-[520px] w-[900px] -translate-x-1/2 blur-3xl" />
+      <ParticleCanvas className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-60 [mask-image:radial-gradient(70%_60%_at_50%_50%,black_0%,transparent_100%)]" />
       <div className="container-x">
         <Reveal className="text-center">
           <h2 id="contact-title" className="text-[clamp(2.75rem,1.4rem+5vw,5.5rem)] font-bold leading-[0.95] tracking-display">

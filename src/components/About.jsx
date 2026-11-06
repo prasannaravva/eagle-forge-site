@@ -1,5 +1,6 @@
 import { site } from '../config/site.js'
 import Reveal from './Reveal.jsx'
+import Tilt from './Tilt.jsx'
 
 export default function About() {
   const { about, address, mapUrl } = site
@@ -30,6 +31,7 @@ export default function About() {
 
         <Reveal delay={0.1} className="relative">
           <div aria-hidden="true" className="glow-crimson pointer-events-none absolute -inset-10 -z-10 blur-2xl" />
+          <Tilt max={5}>
           <div className="rounded-3xl bg-card p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.07)]">
             <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-crimson/15 text-crimson-soft ring-1 ring-crimson/30">
@@ -56,6 +58,7 @@ export default function About() {
               </a>
             </div>
           </div>
+          </Tilt>
         </Reveal>
       </div>
     </section>

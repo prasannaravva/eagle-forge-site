@@ -1,4 +1,7 @@
+import { useRef } from 'react'
+import { m, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { site } from '../config/site.js'
+import Tilt from './Tilt.jsx'
 import Reveal from './Reveal.jsx'
 import { TallyWindow, WhatsAppWindow, StoreWindow, DevicesWindow } from './Windows.jsx'
 
@@ -19,6 +22,19 @@ export function SectionHead({ id, title, sub }) {
       </h2>
       {sub && <p className="mx-auto mt-6 max-w-[520px] text-[17px] text-white/55">{sub}</p>}
     </Reveal>
+  )
+}
+
+function Parallax({ children }) {
+  // The window drifts a little slower than the page, so it sits at a different depth.
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [40, -40])
+  return (
+    <m.div ref={ref} style={{ y }}>
+      {children}
+    </m.div>
   )
 }
 
@@ -54,9 +70,13 @@ export default function Solutions() {
                   </a>
                 </Reveal>
                 <Reveal delay={0.1} y={32} className={`${flip ? 'lg:order-1' : ''}`}>
-                  <div className={i % 2 ? 'lg:animate-[float_7s_ease-in-out_infinite]' : 'lg:animate-float'}>
-                    <Win />
-                  </div>
+                  <Parallax>
+                    <div className={i % 2 ? 'lg:animate-[float_7s_ease-in-out_infinite]' : 'lg:animate-float'}>
+                      <Tilt max={6}>
+                        <Win />
+                      </Tilt>
+                    </div>
+                  </Parallax>
                 </Reveal>
               </article>
             )

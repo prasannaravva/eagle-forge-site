@@ -1,3 +1,8 @@
+import { m } from 'framer-motion'
+
+const ease = [0.16, 1, 0.3, 1]
+const inView = { once: true, amount: 0.4 }
+
 /*
   Product windows: detailed mock-ups of the systems Eagle Forge builds.
   All figures are example data and add up across windows.
@@ -106,9 +111,13 @@ export function OverviewWindow() {
               <div className="absolute inset-x-0 border-t border-dashed border-white/20" style={{ bottom: '75%' }} aria-hidden="true" />
               {week.map((b) => (
                 <div key={b.d} className="flex flex-1 flex-col items-center gap-2">
-                  <div
-                    className={`w-full rounded-md ${b.v >= 75 ? 'bg-gradient-to-t from-crimson to-crimson-soft' : 'bg-white/[0.12]'}`}
+                  <m.div
+                    className={`w-full origin-bottom rounded-md ${b.v >= 75 ? 'bg-gradient-to-t from-crimson to-crimson-soft' : 'bg-white/[0.12]'}`}
                     style={{ height: `${b.v * 1.2}px` }}
+                    initial={{ scaleY: 0, opacity: 0 }}
+                    whileInView={{ scaleY: 1, opacity: 1 }}
+                    viewport={inView}
+                    transition={{ duration: 0.8, ease, delay: 0.9 + week.indexOf(b) * 0.07 }}
                   />
                   <span className="font-mono text-[11px] text-white/35">{b.d}</span>
                 </div>
@@ -180,9 +189,13 @@ export function TallyWindow() {
                   </span>
                 </div>
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.07]">
-                  <div
-                    className={`h-full rounded-full ${pct < 100 ? 'bg-amber' : 'bg-gradient-to-r from-crimson to-crimson-soft'}`}
+                  <m.div
+                    className={`h-full origin-left rounded-full ${pct < 100 ? 'bg-amber' : 'bg-gradient-to-r from-crimson to-crimson-soft'}`}
                     style={{ width: `${Math.min(pct, 100)}%` }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={inView}
+                    transition={{ duration: 1, ease, delay: 0.3 + districts.indexOf(d) * 0.12 }}
                   />
                 </div>
               </div>
@@ -249,7 +262,7 @@ export function WhatsAppWindow() {
           </ul>
         </div>
         <div className="rounded-xl bg-[#0b141a] p-3">
-          <div className="ml-auto max-w-[250px] rounded-xl rounded-tr-sm bg-[#005c4b] px-3 py-2 text-[13px] leading-snug text-white">
+          <m.div className="ml-auto max-w-[250px] rounded-xl rounded-tr-sm bg-[#005c4b] px-3 py-2 text-[13px] leading-snug text-white" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 0.3 }}>
             <p>Namaste. A reminder from Sri Lakshmi Traders: bill 2184 for ₹48,600 was due on 25 October. Reply PAID if it is settled.</p>
             <p className="mt-1 flex items-center justify-end gap-1 text-[11px] text-white/70">
               10:02
@@ -260,9 +273,13 @@ export function WhatsAppWindow() {
                 </span>
               </span>
             </p>
-          </div>
-          <div className="mt-2 max-w-[170px] rounded-xl rounded-tl-sm bg-[#202c33] px-3 py-2 text-[13px] text-white">PAID, sent by UPI today</div>
-          <div className="mt-2 ml-auto w-max rounded-full bg-ok/15 px-2.5 py-1 text-[11px] text-ok">Marked paid in Tally</div>
+          </m.div>
+          <m.div className="mt-2 max-w-[170px] rounded-xl rounded-tl-sm bg-[#202c33] px-3 py-2 text-[13px] text-white" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 0.9 }}>
+            PAID, sent by UPI today
+          </m.div>
+          <m.div className="mt-2 ml-auto w-max rounded-full bg-ok/15 px-2.5 py-1 text-[11px] text-ok" initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 1.4 }}>
+            Marked paid in Tally
+          </m.div>
         </div>
       </div>
     </Window>
@@ -292,7 +309,7 @@ export function StoreWindow() {
         <ol className="relative mt-5 space-y-4 pl-6">
           <span aria-hidden="true" className="absolute bottom-2 left-[7px] top-2 w-px bg-gradient-to-b from-amber/60 via-white/15 to-ok/60" />
           {steps.map(([t, a, b], i) => (
-            <li key={a} className="relative">
+            <m.li key={a} className="relative" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 0.2 + i * 0.12 }}>
               <span
                 className={`absolute -left-6 top-0.5 flex h-[15px] w-[15px] items-center justify-center rounded-full ${
                   i === steps.length - 1 ? 'bg-ok text-bg' : 'bg-amber text-bg'
@@ -306,7 +323,7 @@ export function StoreWindow() {
                 <p className="font-mono text-[11px] text-white/35">{t}</p>
               </div>
               <p className="text-[12px] text-white/45">{b}</p>
-            </li>
+            </m.li>
           ))}
         </ol>
       </div>
@@ -351,7 +368,7 @@ export function DevicesWindow() {
             </defs>
             <line x1="0" x2="300" y1="20" y2="20" stroke="#fb7185" strokeOpacity="0.6" strokeDasharray="4 4" />
             <polygon points={`0,100 ${pts} 300,100`} fill="url(#dev-fill)" />
-            <polyline points={pts} fill="none" stroke="#fb7185" strokeWidth="2" strokeLinejoin="round" />
+            <m.polyline points={pts} fill="none" stroke="#fb7185" strokeWidth="2" strokeLinejoin="round" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={inView} transition={{ duration: 1.4, ease, delay: 0.2 }} />
           </svg>
         </div>
         <div className="pointer-events-none absolute inset-x-5 bottom-5 animate-toast sm:inset-x-6">
