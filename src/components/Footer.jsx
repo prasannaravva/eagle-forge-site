@@ -17,8 +17,11 @@ export default function Footer() {
       <div className="container-x grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
         <div>
           <div className="flex items-center gap-3">
-            <img src={mark} alt="" width="44" height="44" className="h-11 w-11" loading="lazy" />
-            <Wordmark size="text-[30px]" />
+            <img src={mark} alt="" width="52" height="52" className="h-[52px] w-[52px]" loading="lazy" />
+            <div>
+              <Wordmark size="text-[32px]" underline />
+              <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-amber">AI · Automation</p>
+            </div>
           </div>
           <p className="mt-5 max-w-[300px] text-[14px] leading-relaxed text-white/45">
             Integrated technology for small businesses: accounting, online sales, customer messaging, devices and web presence in one working system.

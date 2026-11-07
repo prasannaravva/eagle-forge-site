@@ -145,7 +145,7 @@ export default function Products() {
         <div id="pipeline" className="mt-24 scroll-mt-24">
           <Reveal className="flex flex-wrap items-end justify-between gap-4">
             <h3 className="text-[clamp(1.75rem,1.3rem+1.4vw,2.5rem)] font-medium tracking-head">{products.pipeline.heading}</h3>
-            <p className="text-[15px] text-white/50">Being built now. Ask us if one of these would help your business.</p>
+            <p className="max-w-[46ch] text-[15px] text-white/50">{products.pipeline.sub}</p>
           </Reveal>
           <ul className="mt-10 grid gap-4 [perspective:1200px] sm:grid-cols-2 lg:grid-cols-4">
             {products.pipeline.items.map((it, i) => (
