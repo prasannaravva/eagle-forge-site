@@ -25,7 +25,7 @@ export default function Nav() {
       <div className="container-x flex h-16 items-center justify-between">
         <a href="#top" className="flex items-center gap-2.5" aria-label="Eagle Nexa, home">
           <img src={mark} alt="" width="32" height="32" className="h-8 w-8" />
-          <Wordmark size="text-[22px]" />
+          <Wordmark size="text-[22px]" underline />
         </a>
 
         <nav aria-label="Main" className="hidden md:block">

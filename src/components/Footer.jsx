@@ -14,8 +14,8 @@ export default function Footer() {
       <h2 id="footer-title" className="sr-only">
         Eagle Nexa
       </h2>
-      <div className="container-x grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
-        <div>
+      <div className="container-x grid gap-12 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
+        <div className="sm:col-span-2 md:col-span-4 lg:col-span-1">
           <div className="flex items-center gap-3">
             <img src={mark} alt="" width="52" height="52" className="h-[52px] w-[52px]" loading="lazy" />
             <div>
@@ -50,7 +50,7 @@ export default function Footer() {
               </span>
             ))}
           </address>
-          <a href={`mailto:${site.email}`} className="mt-4 inline-block break-all text-[14px] text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">
+          <a href={`mailto:${site.email}`} className="mt-4 inline-block text-[14px] [overflow-wrap:anywhere] text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">
             {site.email}
           </a>
         </div>
