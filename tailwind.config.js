@@ -14,6 +14,7 @@ export default {
       },
       fontFamily: {
         sans: ['Geist', '-apple-system', 'system-ui', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        brand: ['Fraunces', 'Georgia', 'serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       letterSpacing: {

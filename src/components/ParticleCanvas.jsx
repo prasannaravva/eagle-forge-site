@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Slow drifting points of light in Eagle Forge red, with soft glow and depth:
+ * Slow drifting points of light in Eagle Nexa red, with soft glow and depth:
  * nearer particles are bigger, brighter and faster. Pauses off screen; still frame
  * for reduced motion.
  */

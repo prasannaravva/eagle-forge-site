@@ -1,17 +1,18 @@
 /**
- * Eagle Forge site content. Everything a visitor reads lives here.
+ * Eagle Nexa site content. Everything a visitor reads lives here.
  * Items marked TODO need a real value before launch.
  */
 export const site = {
-  name: 'Eagle Forge',
+  name: 'Eagle Nexa',
   // TODO: the brief gives no email or phone. Set the address enquiries should go to.
-  email: 'hello@eagleforge.example',
+  email: 'hello@eaglenexa.example',
   address: ['Shop No 4, Mahatma Gandhi Commercial Complex', 'Mahendra Nagar, Gollapudi', 'Vijayawada, Andhra Pradesh 520012'],
   mapUrl:
     'https://www.google.com/maps/search/?api=1&query=Mahatma+Gandhi+Commercial+Complex+Mahendra+Nagar+Gollapudi+Vijayawada+520012',
 
   nav: [
     { label: 'Solutions', href: '#solutions' },
+    { label: 'Products', href: '#products' },
     { label: 'How we work', href: '#process' },
     { label: 'About', href: '#about' },
     { label: 'Questions', href: '#faq' },
@@ -20,14 +21,14 @@ export const site = {
   hero: {
     badge: 'AI integration studio · Vijayawada',
     title: ['Your business,', 'connected.'],
-    sub: 'Eagle Forge joins your Tally, online store, WhatsApp and devices into one working system, with AI on top. One view of the business, instead of five tools that never talk.',
+    sub: 'Eagle Nexa joins your Tally, online store, WhatsApp and devices into one working system, with AI on top. One view of the business, instead of five tools that never talk.',
   },
 
   worksWith: ['Tally', 'Shopify', 'WooCommerce', 'WhatsApp Business', 'IoT sensors', 'Your website'],
 
   solutions: {
     heading: ['One system.', 'Every tool you use.'],
-    sub: 'Four things we build, joined so the data moves between them on its own.',
+    sub: 'What we build and advise on, joined so the data moves between them on its own.',
     rows: [
       {
         id: 'tally',
@@ -61,7 +62,59 @@ export const site = {
         body: 'Sensors and connected machines send their readings to one dashboard. When something drifts, such as a cold room warming up, you hear about it on WhatsApp right away.',
         chips: ['Live readings', 'Limits you set', 'WhatsApp alerts'],
       },
+      {
+        id: 'consult',
+        badge: 'IT consultation',
+        tone: 'sky',
+        title: 'Advice before you spend.',
+        body: 'An honest look at the systems you run, what they cost and what is missing. You get a plan in plain words: what to keep, what to connect, what to replace, and in which order.',
+        chips: ['Systems review', 'Roadmap', 'Software and vendor choice'],
+      },
     ],
+  },
+
+  products: {
+    heading: ['Our products.', 'Made for how you work.'],
+    sub: 'Software we make ourselves, for the businesses we serve.',
+    items: [
+      {
+        id: 'keryo',
+        name: 'Keryo',
+        status: 'Early access',
+        tagline: 'WhatsApp messaging for small businesses',
+        body: 'Campaigns, replies and reminders on WhatsApp for businesses across Andhra Pradesh and Telangana, with results you can act on.',
+        points: [
+          'Campaigns to customers who have agreed to hear from you',
+          'One shared inbox for replies, with keyword auto-replies',
+          'Reminders on each person’s own date',
+          'See who received, read and replied',
+          'STOP handled in English, Hindi and Telugu',
+        ],
+      },
+      {
+        id: 'insights',
+        name: 'Keryo Insights',
+        status: 'Pilot',
+        tagline: 'Sales intelligence for TallyPrime distributors',
+        body: 'A small agent reads your Tally, and the app turns it into targets, district performance, receivables and stock, on your phone.',
+        points: [
+          'Target versus actual, by week, district and product',
+          'Receivables and overdue dealers at a glance',
+          'Stock and slow movers',
+          'Dashboards and reports that work on a phone',
+          'WhatsApp alerts through Keryo, coming next',
+        ],
+      },
+    ],
+    pipeline: {
+      heading: 'In the pipeline',
+      items: [
+        { name: 'HRMS', body: 'Attendance, leave and payroll for small teams.' },
+        { name: 'CRM', body: 'Leads, follow-ups and customer history in one place.' },
+        { name: 'ERP', body: 'Purchase, inventory and production, joined to your books.' },
+        { name: 'Society management', body: 'Visitors, gate, maintenance and payments for residential societies, with AI and IoT.' },
+      ],
+    },
   },
 
   process: {

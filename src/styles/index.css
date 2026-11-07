@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fraunces: the Eagle Nexa wordmark face (same files as the finalised lockup, SIL OFL) */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-var.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-italic-var.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: italic;
+  font-display: swap;
+}
+
 @layer base {
   html {
     overflow-x: clip;

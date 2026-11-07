@@ -2,6 +2,7 @@ import { useEffect, useId, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { site } from '../config/site.js'
 import mark from '../assets/eagle-forge-symbol-on-dark.svg'
+import Wordmark from './Wordmark.jsx'
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -22,9 +23,9 @@ export default function Nav() {
       }`}
     >
       <div className="container-x flex h-16 items-center justify-between">
-        <a href="#top" className="flex items-center gap-2.5" aria-label="Eagle Forge, home">
+        <a href="#top" className="flex items-center gap-2.5" aria-label="Eagle Nexa, home">
           <img src={mark} alt="" width="32" height="32" className="h-8 w-8" />
-          <span className="text-[17px] font-semibold tracking-[-0.02em]">Eagle Forge</span>
+          <Wordmark size="text-[22px]" />
         </a>
 
         <nav aria-label="Main" className="hidden md:block">

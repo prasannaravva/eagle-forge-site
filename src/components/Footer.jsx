@@ -1,8 +1,10 @@
 import { site } from '../config/site.js'
-import lockup from '../assets/eagle-forge-horizontal-reversed.svg'
+import mark from '../assets/eagle-forge-symbol-on-dark.svg'
+import Wordmark from './Wordmark.jsx'
 
 const columns = [
-  ['Solutions', [['Tally insights', '#solutions'], ['WhatsApp reminders', '#solutions'], ['Store sync', '#solutions'], ['Devices', '#solutions']]],
+  ['Solutions', [['Tally insights', '#solutions'], ['WhatsApp reminders', '#solutions'], ['Store sync', '#solutions'], ['Devices', '#solutions'], ['IT consultation', '#solutions']]],
+  ['Products', [['Keryo', '#products'], ['Keryo Insights', '#products'], ['In the pipeline', '#pipeline']]],
   ['Company', [['How we work', '#process'], ['About', '#about'], ['Questions', '#faq'], ['Contact', '#contact']]],
 ]
 
@@ -10,11 +12,14 @@ export default function Footer() {
   return (
     <footer aria-labelledby="footer-title" className="border-t border-white/[0.06] pt-16">
       <h2 id="footer-title" className="sr-only">
-        Eagle Forge
+        Eagle Nexa
       </h2>
-      <div className="container-x grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+      <div className="container-x grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
         <div>
-          <img src={lockup} alt="Eagle Forge, AI integrations" width="240" height="60" className="h-12 w-auto" loading="lazy" />
+          <div className="flex items-center gap-3">
+            <img src={mark} alt="" width="44" height="44" className="h-11 w-11" loading="lazy" />
+            <Wordmark size="text-[30px]" />
+          </div>
           <p className="mt-5 max-w-[300px] text-[14px] leading-relaxed text-white/45">
             Integrated technology for small businesses: accounting, online sales, customer messaging, devices and web presence in one working system.
           </p>
@@ -48,8 +53,8 @@ export default function Footer() {
         </div>
       </div>
       <div className="container-x mt-16 flex flex-col gap-2 border-t border-white/[0.06] py-6 text-[13px] text-white/35 sm:flex-row sm:justify-between">
-        <p>© {new Date().getFullYear()} Eagle Forge, Vijayawada</p>
-        <p>Set in Geist (SIL Open Font License)</p>
+        <p>© {new Date().getFullYear()} Eagle Nexa, Vijayawada</p>
+        <p>Set in Geist and Fraunces (SIL Open Font License)</p>
       </div>
     </footer>
   )

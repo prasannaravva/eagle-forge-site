@@ -4,7 +4,7 @@ const ease = [0.16, 1, 0.3, 1]
 const inView = { once: true, amount: 0.4 }
 
 /*
-  Product windows: detailed mock-ups of the systems Eagle Forge builds.
+  Product windows: detailed mock-ups of the systems Eagle Nexa builds.
   All figures are example data and add up across windows.
 */
 
@@ -74,7 +74,7 @@ const feed = [
 
 export function OverviewWindow() {
   return (
-    <Window title="Eagle Forge · Business overview" footer={<><span>Example data</span><span className="flex items-center gap-1.5"><Dot /> 5 systems connected</span></>}>
+    <Window title="Eagle Nexa · Business overview" footer={<><span>Example data</span><span className="flex items-center gap-1.5"><Dot /> 5 systems connected</span></>}>
       <div className="p-4 sm:p-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
@@ -379,6 +379,49 @@ export function DevicesWindow() {
             <p className="text-[13px] text-white/85">Alert sent on WhatsApp: Cold room 1 is at 8.6 °C</p>
           </div>
         </div>
+      </div>
+    </Window>
+  )
+}
+
+/* ---------- IT consultation ---------- */
+
+const findings = [
+  ['Keep', 'TallyPrime as the single source of figures', 'text-ok', 'bg-ok/10 ring-ok/25'],
+  ['Connect', 'Online store to Tally: invoices and stock', 'text-amber', 'bg-amber/10 ring-amber/25'],
+  ['Move', 'Dealer WhatsApp groups to managed broadcasts', 'text-sky-400', 'bg-sky-400/10 ring-sky-400/25'],
+  ['Replace', 'Paper visitor and stock registers', 'text-crimson-soft', 'bg-crimson/10 ring-crimson/30'],
+]
+
+export function ConsultWindow() {
+  return (
+    <Window title="IT review · Findings and plan" glow="crimson" footer={<><span>4 steps, in order</span><span>Example data</span></>}>
+      <div className="space-y-4 p-5 sm:p-6">
+        <div className="flex items-end justify-between">
+          <div>
+            <Label>Systems reviewed</Label>
+            <p className="mt-1 font-mono text-3xl font-medium tracking-[-0.03em]">7</p>
+          </div>
+          <div className="text-right">
+            <Label>Hours of manual work found</Label>
+            <p className="mt-1 font-mono text-3xl font-medium tracking-[-0.03em] text-amber">38 / month</p>
+          </div>
+        </div>
+        <ol className="space-y-2.5">
+          {findings.map(([tag, text, tc, bg], i) => (
+            <m.li
+              key={text}
+              className="flex items-center gap-3 rounded-xl bg-white/[0.03] px-4 py-3 ring-1 ring-inset ring-white/[0.06]"
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={inView}
+              transition={{ duration: 0.6, ease, delay: 0.2 + i * 0.12 }}
+            >
+              <span className={`w-[68px] shrink-0 rounded-full px-2 py-0.5 text-center text-[11px] font-medium ring-1 ring-inset ${tc} ${bg}`}>{tag}</span>
+              <span className="text-[13px] text-white/85">{text}</span>
+            </m.li>
+          ))}
+        </ol>
       </div>
     </Window>
   )

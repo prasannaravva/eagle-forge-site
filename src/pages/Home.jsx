@@ -3,6 +3,7 @@ import Nav from '../components/Nav.jsx'
 import Hero from '../components/Hero.jsx'
 import Solutions from '../components/Solutions.jsx'
 
+const Products = lazy(() => import('../components/Products.jsx'))
 const Process = lazy(() => import('../components/Process.jsx'))
 const About = lazy(() => import('../components/About.jsx'))
 const FAQ = lazy(() => import('../components/FAQ.jsx'))
@@ -17,6 +18,7 @@ export default function Home() {
         <Hero />
         <Solutions />
         <Suspense fallback={<div className="min-h-screen" aria-hidden="true" />}>
+          <Products />
           <Process />
           <About />
           <FAQ />

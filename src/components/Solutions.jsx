@@ -3,15 +3,16 @@ import { m, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { site } from '../config/site.js'
 import Tilt from './Tilt.jsx'
 import Reveal from './Reveal.jsx'
-import { TallyWindow, WhatsAppWindow, StoreWindow, DevicesWindow } from './Windows.jsx'
+import { TallyWindow, WhatsAppWindow, StoreWindow, DevicesWindow, ConsultWindow } from './Windows.jsx'
 
-const windows = { tally: TallyWindow, whatsapp: WhatsAppWindow, store: StoreWindow, devices: DevicesWindow }
+const windows = { tally: TallyWindow, whatsapp: WhatsAppWindow, store: StoreWindow, devices: DevicesWindow, consult: ConsultWindow }
 const tones = {
   crimson: 'text-crimson-soft ring-crimson/30 bg-crimson/10',
   green: 'text-ok ring-ok/30 bg-ok/10',
   amber: 'text-amber-soft ring-amber/30 bg-amber/10',
+  sky: 'text-sky-400 ring-sky-400/30 bg-sky-400/10',
 }
-const dots = { crimson: 'bg-crimson-soft', green: 'bg-ok', amber: 'bg-amber' }
+const dots = { crimson: 'bg-crimson-soft', green: 'bg-ok', amber: 'bg-amber', sky: 'bg-sky-400' }
 
 export function SectionHead({ id, title, sub }) {
   return (
