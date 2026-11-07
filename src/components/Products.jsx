@@ -90,14 +90,6 @@ const statusTone = {
   Pilot: 'text-amber-soft bg-amber/10 ring-amber/30',
 }
 
-/* Simple line icons for the pipeline cards. */
-const icons = {
-  HRMS: 'M7 9a3 3 0 1 0 6 0 3 3 0 0 0-6 0zM4 17c.8-2.7 3.2-4 6-4s5.2 1.3 6 4',
-  CRM: 'M4 6h12M4 10h8M4 14h10M15 13l2 2 3-4',
-  ERP: 'M4 15V9l6-4 6 4v6M8 15v-4h4v4M3 15h14',
-  'Society management': 'M3 16V8l7-5 7 5v8M7 16v-5h6v5M10 3v2',
-}
-
 export default function Products() {
   const { products } = site
   return (
@@ -166,14 +158,7 @@ export default function Products() {
                 transition={{ duration: 0.9, ease, delay: i * 0.08 }}
                 whileHover={{ y: -6, rotateX: 4, rotateY: -4, transition: { type: 'spring', stiffness: 260, damping: 30 } }}
               >
-                <div className="flex items-center justify-between">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04] text-white/70 ring-1 ring-inset ring-white/10">
-                    <svg viewBox="0 0 20 20" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d={icons[it.name]} />
-                    </svg>
-                  </span>
-                  <span className="rounded-full bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/50 ring-1 ring-inset ring-white/10">Coming soon</span>
-                </div>
+                <span className="inline-flex rounded-full bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/50 ring-1 ring-inset ring-white/10">Coming soon</span>
                 <h4 className="mt-6 text-[19px] font-semibold tracking-[-0.02em]">{it.name}</h4>
                 <p className="mt-2 text-[14px] leading-relaxed text-white/55">{it.body}</p>
               </m.li>
