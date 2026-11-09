@@ -8,5 +8,5 @@ services:
     container_name: eaglenexa-site
     restart: unless-stopped
     ports:
-      # Change SITE_PORT if 8080 is already used on the server, and match it in the host nginx config.
-      - "127.0.0.1:${SITE_PORT:-8080}:80"
+      # 8092: 8080 is Nextcloud AIO and 8090/8091 are Eagle Coats on this VM. Change SITE_PORT if needed, and match it in the host nginx config.
+      - "127.0.0.1:${SITE_PORT:-8092}:80"

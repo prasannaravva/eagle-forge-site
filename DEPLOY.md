@@ -1,16 +1,16 @@
 # Hosting eaglenexa.ai on the Oracle Cloud VM (Docker behind the existing nginx)
 
-The site runs as one Docker container: the static build served by nginx on plain HTTP, published on `127.0.0.1:8080` only. The nginx already running on the VM is the reverse proxy: it answers for `eaglenexa.ai`, handles HTTPS (certbot), and forwards requests to the container. `www.eaglenexa.ai` redirects to `eaglenexa.ai`.
+The site runs as one Docker container: the static build served by nginx on plain HTTP, published on `127.0.0.1:8092` only. The nginx already running on the VM is the reverse proxy: it answers for `eaglenexa.ai`, handles HTTPS (certbot), and forwards requests to the container. `www.eaglenexa.ai` redirects to `eaglenexa.ai`.
 
 ```
-visitor ──https──▶ host nginx (80/443, certbot) ──http──▶ 127.0.0.1:8080 ──▶ container (nginx + site)
+visitor ──https──▶ host nginx (80/443, certbot) ──http──▶ 127.0.0.1:8092 ──▶ container (nginx + site)
 ```
 
 Files:
 
 - `Dockerfile`: builds the site, then serves it with nginx.
 - `deploy/nginx-container.conf`: nginx inside the container (caching, compression, page fallback, `/healthz`).
-- `docker-compose.yml`: runs the container on `127.0.0.1:8080`.
+- `docker-compose.yml`: runs the container on `127.0.0.1:8092`.
 - `deploy/nginx-host-eaglenexa.ai.conf`: the site config to add to the existing nginx.
 
 ## 1. Point the domain at the VM
@@ -28,7 +28,7 @@ Remove the other A records for `@` and `www` (the domain currently points at the
 dig +short eaglenexa.ai
 ```
 
-Ports 80 and 443 are already open if the existing nginx serves other sites over HTTPS; nothing changes there. Port 8080 is not opened anywhere: the container only listens on the VM itself.
+Ports 80 and 443 are already open if the existing nginx serves other sites over HTTPS; nothing changes there. Port 8092 is not opened anywhere: the container only listens on the VM itself.
 
 ## 2. Start the website container
 
@@ -45,10 +45,10 @@ docker compose up -d --build
 The image is built on the VM, so it matches its processor (Ampere arm64 included). Check it answers:
 
 ```bash
-curl -I http://127.0.0.1:8080
+curl -I http://127.0.0.1:8092
 ```
 
-If port 8080 is already taken on the VM, start it on another port with `SITE_PORT=8090 docker compose up -d --build` and use that port in step 3.
+If port 8092 is already taken on the VM, start it on another port with `SITE_PORT=8093 docker compose up -d --build` and use that port in step 3.
 
 ## 3. Add the site to the existing nginx
 
@@ -94,7 +94,7 @@ The host nginx needs no change for updates.
 
 ## Troubleshooting
 
-- **502 Bad Gateway:** the container is not running or is on another port. Check `docker compose ps` and `curl -I http://127.0.0.1:8080`; on Oracle Linux, the SELinux setting in step 3.
+- **502 Bad Gateway:** the container is not running or is on another port. Check `docker compose ps` and `curl -I http://127.0.0.1:8092`; on Oracle Linux, the SELinux setting in step 3.
 - **certbot fails:** DNS does not point at this VM yet (step 1), or another server block already claims `eaglenexa.ai`. Check with `sudo nginx -T | grep -n eaglenexa`.
 - **Old page after an update:** the page itself is sent with `no-cache`, so a normal reload shows the new version; if a CDN or cache sits in front of nginx, purge it.
 - **Container health:** `docker inspect --format '{{.State.Health.Status}}' eaglenexa-site` should say `healthy`.
