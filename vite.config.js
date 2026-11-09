@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -5,6 +6,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: process.env.PAGES_BASE || '/',
   plugins: [react()],
+  resolve: {
+    // '@/…' points at src/, as shadcn components expect
+    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+  },
   build: {
     target: 'es2020',
     cssCodeSplit: true,

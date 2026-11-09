@@ -56,7 +56,7 @@ src/
     Solutions.jsx       four alternating text + window rows
     Process.jsx         four steps
     About.jsx           who we serve, values, office card with map link
-    FAQ.jsx             <details> accordion, one open at a time
+    FAQ.jsx             @ssych accordion (components/ui), one open at a time
     Enquiry.jsx         tool picker, connections preview, enquiry form (mailto)
     Footer.jsx          lockup, link columns, address
     Reveal.jsx          scroll-in fade

@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // The site is always dark; <html class="dark"> turns on dark: variants used by shadcn components.
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
@@ -11,6 +13,9 @@ export default {
         crimson: { DEFAULT: '#c81e3a', soft: '#fb7185' },
         amber: { DEFAULT: '#f59e0b', soft: '#fbbf24' },
         ok: '#10b981',
+        // shadcn component tokens, mapped to the site palette
+        background: '#09090b',
+        foreground: '#ffffff',
       },
       fontFamily: {
         sans: ['Geist', '-apple-system', 'system-ui', '"Segoe UI"', 'Roboto', 'sans-serif'],
