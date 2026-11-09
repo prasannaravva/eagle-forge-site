@@ -41,6 +41,8 @@ npm run build
 npm run preview
 ```
 
+**Production (eaglenexa.ai):** the site runs in Docker on an Oracle Cloud VM, served by Caddy with automatic HTTPS. Steps in [DEPLOY.md](DEPLOY.md); on the server it is `docker compose up -d --build`.
+
 `npm run build` writes the static site to `dist/`. Upload `dist/` to any static host: Netlify or Cloudflare Pages (build `npm run build`, output `dist`), Vercel (preset "Vite"), or the web root of shared hosting.
 
 ## Structure
