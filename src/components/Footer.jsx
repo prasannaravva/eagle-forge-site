@@ -1,6 +1,7 @@
 import { site } from '../config/site.js'
 import mark from '../assets/eagle-forge-symbol-on-dark.svg'
 import Wordmark from './Wordmark.jsx'
+import { Item, Stagger } from './Reveal.jsx'
 
 const columns = [
   ['Solutions', [['Tally + AI', '#solutions'], ['WhatsApp reminders', '#solutions'], ['Store sync', '#solutions'], ['Devices', '#solutions'], ['IT consultation', '#solutions']]],
@@ -14,8 +15,8 @@ export default function Footer() {
       <h2 id="footer-title" className="sr-only">
         Eagle Nexa
       </h2>
-      <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-        <div className="sm:col-span-2 lg:col-span-1">
+      <Stagger className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]" gap={0.1}>
+        <Item className="sm:col-span-2 lg:col-span-1">
           <div className="flex items-center gap-2.5">
             <img src={mark} alt="" width="36" height="36" className="h-9 w-9" loading="lazy" />
             <Wordmark size="text-[24px]" underline />
@@ -24,22 +25,22 @@ export default function Footer() {
           <p className="mt-4 max-w-[300px] text-[14.5px] leading-relaxed text-muted">
             Accounting, online sales, customer messaging, devices and your website, joined into one working system.
           </p>
-        </div>
+        </Item>
         {columns.map(([title, links]) => (
-          <nav key={title} aria-label={title}>
+          <Item as="nav" key={title} aria-label={title}>
             <p className="font-display text-[14px] font-semibold text-white">{title}</p>
             <ul className="mt-4 space-y-2.5 text-[14.5px]">
               {links.map(([l, h]) => (
                 <li key={l}>
-                  <a href={h} className="text-muted transition-colors hover:text-crimson">
+                  <a href={h} className="inline-block text-muted transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-crimson">
                     {l}
                   </a>
                 </li>
               ))}
             </ul>
-          </nav>
+          </Item>
         ))}
-      </div>
+      </Stagger>
       <div className="border-t border-line">
         <div className="container-x flex flex-col gap-2 py-6 text-[13px] text-muted sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} Eagle Nexa, Vijayawada</p>

@@ -28,7 +28,14 @@ export function Accordion({
         const on = active === i
         const Icon = it.icon
         return (
-          <div key={i} className="border-t border-foreground/[0.08] first:border-t-0">
+          <motion.div
+            key={i}
+            className="border-t border-foreground/[0.08] first:border-t-0"
+            initial={reduced ? false : { opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.55, ease: EASE, delay: i * 0.07 }}
+          >
             <h3>
               <button
                 type="button"
@@ -119,7 +126,7 @@ export function Accordion({
                 </motion.section>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
         )
       })}
     </div>

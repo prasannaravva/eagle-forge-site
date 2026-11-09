@@ -2,7 +2,7 @@ import { useId, useMemo, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { ArrowRight, Check, Mail, MapPin, Sparkles } from 'lucide-react'
 import { site } from '../config/site.js'
-import Reveal from './Reveal.jsx'
+import Reveal, { Item, Stagger } from './Reveal.jsx'
 
 /**
  * Contact: office details on the left; on the right the visitor ticks the tools they run, sees
@@ -38,18 +38,18 @@ export default function Enquiry() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="pb-24 sm:pb-32">
       <div className="container-x">
-        <Reveal>
+        <Reveal y={48}>
           <div className="card grid overflow-hidden lg:grid-cols-[0.9fr_1.1fr]">
             {/* Left: who and where */}
-            <div className="flex flex-col gap-8 border-b border-line bg-panel p-7 sm:p-10 lg:border-b-0 lg:border-r">
-              <div>
+            <Stagger className="flex flex-col gap-8 border-b border-line bg-panel p-7 sm:p-10 lg:border-b-0 lg:border-r" gap={0.12} delay={0.2}>
+              <Item>
                 <p className="eyebrow">Get in touch</p>
                 <h2 id="contact-title" className="mt-4 text-[clamp(2rem,1.4rem+2.2vw,3rem)] font-bold leading-[1.08] tracking-[-0.035em]">
                   {enquiry.heading[0]} <span className="text-crimson">{enquiry.heading[1]}</span>
                 </h2>
                 <p className="mt-4 max-w-[30rem] text-[16.5px] leading-relaxed text-muted">{enquiry.sub}</p>
-              </div>
-              <ul className="space-y-5 text-[15px]">
+              </Item>
+              <Item as="ul" x={-16} y={0} className="space-y-5 text-[15px]">
                 <li className="flex gap-3">
                   <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-crimson" aria-hidden="true" />
                   <span>
@@ -63,11 +63,11 @@ export default function Enquiry() {
                     {site.email}
                   </a>
                 </li>
-              </ul>
-              <div className="mt-auto rounded-md border border-line bg-card p-4 text-[14px] text-muted">
+              </Item>
+              <Item className="mt-auto rounded-md border border-line bg-card p-4 text-[14px] text-muted">
                 <span className="font-display font-semibold text-white">On-site setup</span> across Vijayawada, Guntur and the Krishna district. Remote setup anywhere.
-              </div>
-            </div>
+              </Item>
+            </Stagger>
 
             {/* Right: the form */}
             <div className="p-7 sm:p-10">
@@ -79,44 +79,54 @@ export default function Enquiry() {
                 }}
                 aria-describedby={ids.flows}
               >
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
+                <Stagger className="grid gap-4 sm:grid-cols-2" gap={0.1} delay={0.3}>
+                  <Item x={20} y={0}>
                     <label htmlFor={ids.name} className="font-display text-[13.5px] font-medium text-white">
                       Your name
                     </label>
                     <input id={ids.name} autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Varma" className={`${field} mt-1.5`} />
-                  </div>
-                  <div>
+                  </Item>
+                  <Item x={20} y={0}>
                     <label htmlFor={ids.reach} className="font-display text-[13.5px] font-medium text-white">
                       Phone or email
                     </label>
                     <input id={ids.reach} autoComplete="email" value={reach} onChange={(e) => setReach(e.target.value)} placeholder="+91 or you@business.in" className={`${field} mt-1.5`} />
-                  </div>
-                </div>
+                  </Item>
+                </Stagger>
 
                 <fieldset>
                   <legend className="font-display text-[13.5px] font-medium text-white">What does your business run on today?</legend>
-                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  <Stagger className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3" gap={0.05} delay={0.45}>
                     {enquiry.tools.map((t) => {
                       const on = picked.includes(t.id)
                       return (
-                        <button
+                        <Item
+                          as="button"
                           key={t.id}
+                          y={10}
+                          scale={0.9}
                           type="button"
                           aria-pressed={on}
                           onClick={() => toggle(t.id)}
+                          whileTap={{ scale: 0.96 }}
                           className={`flex h-11 items-center gap-2.5 rounded-md border px-3 text-left text-[14px] transition-colors duration-200 ${
                             on ? 'border-crimson bg-crimson/[0.06] text-white' : 'border-line bg-card text-muted hover:border-white/25 hover:text-white'
                           }`}
                         >
                           <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-[3px] border ${on ? 'border-crimson bg-crimson text-[#fff]' : 'border-line'}`}>
-                            {on && <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" />}
+                            <AnimatePresence initial={false}>
+                              {on && (
+                                <m.span key="tick" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ type: 'spring', stiffness: 500, damping: 22 }}>
+                                  <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" />
+                                </m.span>
+                              )}
+                            </AnimatePresence>
                           </span>
                           {t.label}
-                        </button>
+                        </Item>
                       )
                     })}
-                  </div>
+                  </Stagger>
                 </fieldset>
 
                 <div id={ids.flows} aria-live="polite" className="rounded-md border border-line bg-raised p-4">
