@@ -229,7 +229,7 @@ export function TallyWindow() {
 
 export function WhatsAppWindow() {
   const rows = [
-    ['Sai Agencies', '₹52,000', 'Read', 'text-sky-400'],
+    ['Sai Agencies', '₹52,000', 'Read', 'text-sky-700 dark:text-sky-400'],
     ['Venkata Traders', '₹38,900', 'Paid', 'text-ok'],
     ['Ganesh Stores', '₹21,500', 'Delivered', 'text-white/50'],
   ]
@@ -261,8 +261,8 @@ export function WhatsAppWindow() {
             ))}
           </ul>
         </div>
-        <div className="rounded-xl bg-[#0b141a] p-3">
-          <m.div className="ml-auto max-w-[250px] rounded-xl rounded-tr-sm bg-[#005c4b] px-3 py-2 text-[13px] leading-snug text-white" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 0.3 }}>
+        <div className="rounded-xl bg-[#efeae2] p-3 dark:bg-[#0b141a]">
+          <m.div className="ml-auto max-w-[250px] rounded-xl rounded-tr-sm bg-[#d9fdd3] px-3 dark:bg-[#005c4b] py-2 text-[13px] leading-snug text-white" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 0.3 }}>
             <p>Namaste. A reminder from Sri Lakshmi Traders: bill 2184 for ₹48,600 was due on 25 October. Reply PAID if it is settled.</p>
             <p className="mt-1 flex items-center justify-end gap-1 text-[11px] text-white/70">
               10:02
@@ -274,7 +274,7 @@ export function WhatsAppWindow() {
               </span>
             </p>
           </m.div>
-          <m.div className="mt-2 max-w-[170px] rounded-xl rounded-tl-sm bg-[#202c33] px-3 py-2 text-[13px] text-white" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 0.9 }}>
+          <m.div className="mt-2 max-w-[170px] rounded-xl rounded-tl-sm bg-[#ffffff] px-3 dark:bg-[#202c33] py-2 text-[13px] text-white" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 0.9 }}>
             PAID, sent by UPI today
           </m.div>
           <m.div className="mt-2 ml-auto w-max rounded-full bg-ok/15 px-2.5 py-1 text-[11px] text-ok" initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={inView} transition={{ duration: 0.6, ease, delay: 1.4 }}>
@@ -389,7 +389,7 @@ export function DevicesWindow() {
 const findings = [
   ['Keep', 'TallyPrime as the single source of figures', 'text-ok', 'bg-ok/10 ring-ok/25'],
   ['Connect', 'Online store to Tally: invoices and stock', 'text-amber', 'bg-amber/10 ring-amber/25'],
-  ['Move', 'Dealer WhatsApp groups to managed broadcasts', 'text-sky-400', 'bg-sky-400/10 ring-sky-400/25'],
+  ['Move', 'Dealer WhatsApp groups to managed broadcasts', 'text-sky-700 dark:text-sky-400', 'bg-sky-400/10 ring-sky-400/25'],
   ['Replace', 'Paper visitor and stock registers', 'text-crimson-soft', 'bg-crimson/10 ring-crimson/30'],
 ]
 

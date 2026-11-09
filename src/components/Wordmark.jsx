@@ -8,7 +8,7 @@ export default function Wordmark({ className = '', size = 'text-[19px]', underli
   return (
     <span className={`font-brand ${size} whitespace-nowrap leading-none tracking-[-0.035em] text-white ${className}`}>
       <span className="font-medium">Eagle</span>{' '}
-      <em className="relative font-normal italic text-[#f43f5e]">
+      <em className="relative font-normal italic text-[#c81e3a] dark:text-[#f43f5e]">
         Nexa
         {underline && (
           <span

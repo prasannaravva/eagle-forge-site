@@ -6,6 +6,15 @@
     <title>Eagle Nexa — Tally, store, WhatsApp and devices in one system</title>
     <meta name="description" content="Eagle Nexa, Vijayawada, joins a small business's Tally, Shopify or WooCommerce store, WhatsApp, devices and website into one working system, with AI on top." />
     <meta name="theme-color" content="#09090B" />
+    <script>
+      // Apply the saved theme before first paint so there is no flash. Dark is the default.
+      try {
+        if (localStorage.getItem('theme') === 'light') {
+          document.documentElement.classList.remove('dark')
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#FAF9F6')
+        }
+      } catch (e) {}
+    </script>
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -14,7 +23,7 @@
     <link rel="preload" href="/fonts/fraunces-italic-var.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
   </head>
   <body class="bg-bg text-white">
     <a class="skip-link" href="#main">Skip to content</a>

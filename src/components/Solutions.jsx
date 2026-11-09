@@ -10,7 +10,7 @@ const tones = {
   crimson: 'text-crimson-soft ring-crimson/30 bg-crimson/10',
   green: 'text-ok ring-ok/30 bg-ok/10',
   amber: 'text-amber-soft ring-amber/30 bg-amber/10',
-  sky: 'text-sky-400 ring-sky-400/30 bg-sky-400/10',
+  sky: 'text-sky-700 dark:text-sky-400 ring-sky-400/30 bg-sky-400/10',
 }
 const dots = { crimson: 'bg-crimson-soft', green: 'bg-ok', amber: 'bg-amber', sky: 'bg-sky-400' }
 

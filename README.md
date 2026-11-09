@@ -10,6 +10,7 @@ Every push to `main` rebuilds and redeploys the preview through GitHub Actions (
 
 - **Reference:** xenriq.com (captured in `Xenriq_DESIGN.md`): near-black `#09090B`, white type at a few opacities, hairline borders, soft colour glows behind detailed product windows, alternating text/window rows, white pill buttons, Geist and Geist Mono.
 - **Brand:** the Eagle Nexa wordmark is "Eagle" in Fraunces 500 with *Nexa* in Fraunces Italic 400 (self-hosted in `public/fonts`, SIL OFL). Eagle Nexa crimson `#C81E3A` and amber `#F59E0B` from the logo kit, used only as glows, status dots, the gradient headline word and small accents.
+- **Themes:** dark by default, with a light theme from the sun/moon button in the header (remembered in `localStorage`, applied before first paint by a small script in `index.html`). The colour tokens (`white` = ink, `bg`, `card`, `raised`, `panel`, and the crimson/amber/green accents) are CSS variables in `src/styles/index.css`, so one set of classes serves both themes; only a few fixed-colour spots use `dark:` variants.
 - **Sections:** hero, five solutions (Tally + AI, WhatsApp, store sync, IoT, IT consultation), products (Keryo, Keryo Insights) with the pipeline (HRMS, CRM, ERP, society management), how we work, about, questions, enquiry.
 - **Visuals:** no photographs. Each service is shown as a product window built in HTML (business overview, Tally insights, WhatsApp reminders, store sync, devices) with example data that adds up across windows, each marked "Example data".
 - **Live piece:** in the closing section visitors tick the tools they run, see the connections Eagle Forge would set up, and send an enquiry email pre-filled with their choices.
@@ -50,7 +51,8 @@ src/
   styles/index.css      base styles, buttons, badges, chips, glows
   pages/Home.jsx        section order; sections below the fold are code-split
   components/
-    Nav.jsx             fixed bar, blurs when scrolled; phone menu
+    Nav.jsx             floating glass capsule: sliding-pill menu, scrollspy, progress line; phone menu
+    ThemeToggle.jsx     light/dark switch with a circular reveal
     Hero.jsx            headline, CTAs, business-overview window, "works with" row
     Windows.jsx         the product windows (overview, Tally, WhatsApp, store, devices)
     Solutions.jsx       four alternating text + window rows

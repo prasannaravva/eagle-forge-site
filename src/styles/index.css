@@ -41,11 +41,47 @@
     --chart-down: #d0433f;
     --chart-amber: #b8862f;
   }
+  /* Site theme. Light is the base; <html class="dark"> (the default) switches to dark.
+     Values are RGB channels so Tailwind opacity modifiers (text-white/60) work. */
+  :root {
+    --c-fg: 15 15 18;
+    --c-bg: 250 249 246;
+    --c-panel: 244 243 239;
+    --c-card: 255 255 255;
+    --c-raised: 255 255 255;
+    --c-brand: 200 30 58;
+    --c-crimson-soft: 190 18 60;
+    --c-amber: 180 83 9;
+    --c-amber-soft: 180 83 9;
+    --c-ok: 4 120 87;
+    --glow-strength: 0.55;
+    color-scheme: light;
+  }
+  :root.dark {
+    --c-fg: 255 255 255;
+    --c-bg: 9 9 11;
+    --c-panel: 12 12 14;
+    --c-card: 19 19 22;
+    --c-raised: 24 24 27;
+    --c-brand: 244 63 94;
+    --c-crimson-soft: 251 113 133;
+    --c-amber: 245 158 11;
+    --c-amber-soft: 251 191 36;
+    --c-ok: 16 185 129;
+    --glow-strength: 1;
+    color-scheme: dark;
+  }
   html {
     overflow-x: clip;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
-    color-scheme: dark;
+  }
+
+  /* Theme switch: a circle grows from the toggle (View Transitions), else a plain swap. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
   }
   body {
     @apply bg-bg font-sans text-[15px] leading-relaxed text-white antialiased;
@@ -104,7 +140,7 @@
     transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 300ms cubic-bezier(0, 0, 0.2, 1);
   }
   .btn-primary:hover {
-    background-color: #e4e4e7;
+    background-color: rgb(var(--c-fg) / 0.86);
   }
   .btn-primary:active {
     transform: scale(0.97);
@@ -132,18 +168,21 @@
   }
 
   .hairline {
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    background: linear-gradient(90deg, transparent, rgb(var(--c-fg) / 0.12), transparent);
     height: 1px;
   }
 
   /* Soft coloured light behind a product window. */
   .glow-crimson {
+    opacity: var(--glow-strength);
     background: radial-gradient(closest-side, rgba(200, 30, 58, 0.32), transparent);
   }
   .glow-amber {
+    opacity: var(--glow-strength);
     background: radial-gradient(closest-side, rgba(245, 158, 11, 0.22), transparent);
   }
   .glow-green {
+    opacity: var(--glow-strength);
     background: radial-gradient(closest-side, rgba(16, 185, 129, 0.2), transparent);
   }
 

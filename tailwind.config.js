@@ -1,25 +1,30 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  // The site is always dark; <html class="dark"> turns on dark: variants used by shadcn components.
+  // Dark is the default theme: <html class="dark"> (removed for the light theme) turns on dark: variants.
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
-        bg: '#09090b',
-        panel: '#0c0c0e',
-        card: '#131316',
-        raised: '#18181b',
-        crimson: { DEFAULT: '#c81e3a', soft: '#fb7185' },
-        amber: { DEFAULT: '#f59e0b', soft: '#fbbf24' },
-        ok: '#10b981',
+        // Theme colours come from CSS variables (src/styles/index.css) so light and dark share
+        // one set of classes. "white" is the ink colour: white on dark, near-black on light.
+        white: 'rgb(var(--c-fg) / <alpha-value>)',
+        bg: 'rgb(var(--c-bg) / <alpha-value>)',
+        panel: 'rgb(var(--c-panel) / <alpha-value>)',
+        card: 'rgb(var(--c-card) / <alpha-value>)',
+        raised: 'rgb(var(--c-raised) / <alpha-value>)',
+        // Accents deepen on the light theme so they keep their contrast (values in index.css).
+        crimson: { DEFAULT: '#c81e3a', soft: 'rgb(var(--c-crimson-soft) / <alpha-value>)' },
+        amber: { DEFAULT: 'rgb(var(--c-amber) / <alpha-value>)', soft: 'rgb(var(--c-amber-soft) / <alpha-value>)' },
+        ok: 'rgb(var(--c-ok) / <alpha-value>)',
         // shadcn component tokens, mapped to the site palette
-        background: '#09090b',
-        foreground: '#ffffff',
+        background: 'rgb(var(--c-bg) / <alpha-value>)',
+        foreground: 'rgb(var(--c-fg) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Geist', '-apple-system', 'system-ui', '"Segoe UI"', 'Roboto', 'sans-serif'],
         brand: ['Fraunces', 'Georgia', 'serif'],
+        nav: ['"Inter Tight"', 'Geist', 'system-ui', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       letterSpacing: {
