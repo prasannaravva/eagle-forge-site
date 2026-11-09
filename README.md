@@ -8,9 +8,9 @@ Every push to `main` rebuilds and redeploys the preview through GitHub Actions (
 
 ## Design
 
-- **Reference:** xenriq.com (captured in `Xenriq_DESIGN.md`): near-black `#09090B`, white type at a few opacities, hairline borders, soft colour glows behind detailed product windows, alternating text/window rows, white pill buttons, Geist and Geist Mono.
-- **Brand:** the Eagle Nexa wordmark is "Eagle" in Fraunces 500 with *Nexa* in Fraunces Italic 400 (self-hosted in `public/fonts`, SIL OFL). Eagle Nexa crimson `#C81E3A` and amber `#F59E0B` from the logo kit, used only as glows, status dots, the gradient headline word and small accents.
-- **Themes:** dark by default, with a light theme from the sun/moon button in the header (remembered in `localStorage`, applied before first paint by a small script in `index.html`). The colour tokens (`white` = ink, `bg`, `card`, `raised`, `panel`, and the crimson/amber/green accents) are CSS variables in `src/styles/index.css`, so one set of classes serves both themes; only a few fixed-colour spots use `dark:` variants.
+- **Direction (Nov 2026):** concept A, "AI-native", designed in Google Stitch (project 17480544976547713170) from a ui-ux-pro-max recommendation. Light first, white cards with hairline borders, crimson `#C81E3A` for actions and amber `#F59E0B` for signals. Space Grotesk for headings, DM Sans for text, JetBrains Mono for small system lines. The wordmark keeps Fraunces (self-hosted in `public/fonts`, SIL OFL).
+- **Live piece:** the hero assistant (`Assistant.jsx`) answers three example questions from Tally, sales and sensors: it types the question, reads the source, streams the answer and fills a table. Visitors can pick a question; it cycles on its own until they do.
+- **Themes:** light by default, with a dark theme from the sun/moon button in the header (remembered in `localStorage`, applied before first paint by a small script in `index.html`). The colour tokens (`white` = ink, `bg`, `card`, `raised`, `panel`, and the crimson/amber/green accents) are CSS variables in `src/styles/index.css`, so one set of classes serves both themes; only a few fixed-colour spots use `dark:` variants.
 - **Sections:** hero, five solutions (Tally + AI, WhatsApp, store sync, IoT, IT consultation), products (Keryo, Keryo Insights) with the pipeline (HRMS, CRM, ERP, society management), how we work, about, questions, enquiry.
 - **Visuals:** no photographs. Each service is shown as a product window built in HTML (business overview, Tally insights, WhatsApp reminders, store sync, devices) with example data that adds up across windows, each marked "Example data".
 - **Live piece:** in the closing section visitors tick the tools they run, see the connections Eagle Forge would set up, and send an enquiry email pre-filled with their choices.
@@ -51,12 +51,12 @@ src/
   styles/index.css      base styles, buttons, badges, chips, glows
   pages/Home.jsx        section order; sections below the fold are code-split
   components/
-    Nav.jsx             floating glass capsule: sliding-pill menu, scrollspy, progress line; phone menu
+    Nav.jsx             header: logo, location tag, section links (current one marked), theme switch, action
     ThemeToggle.jsx     light/dark switch with a circular reveal
-    Hero.jsx            headline, CTAs, business-overview window, "works with" row
-    Windows.jsx         the product windows (overview, Tally, WhatsApp, store, devices)
-    Solutions.jsx       four alternating text + window rows
-    Process.jsx         four steps
+    Hero.jsx            headline, actions, the AI assistant, the "works with" tiles
+    Assistant.jsx       the live assistant demo (three example conversations)
+    Solutions.jsx       five solution cards, each with a small working detail
+    Process.jsx         four numbered steps
     About.jsx           who we serve, values, office card with map link
     FAQ.jsx             @ssych accordion (components/ui), one open at a time
     Enquiry.jsx         tool picker, connections preview, enquiry form (mailto)

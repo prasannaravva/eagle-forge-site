@@ -1,34 +1,40 @@
+import { m, useReducedMotion } from 'framer-motion'
+import { Bot, Cable, Search, Workflow } from 'lucide-react'
 import { site } from '../config/site.js'
-import { m } from 'framer-motion'
-import Reveal from './Reveal.jsx'
 import { SectionHead } from './Solutions.jsx'
+
+const ease = [0.16, 1, 0.3, 1]
+const icons = [Search, Cable, Workflow, Bot]
 
 export default function Process() {
   const { process } = site
+  const reduce = useReducedMotion()
   return (
-    <section id="process" aria-labelledby="process-title" className="relative py-28 sm:py-36">
-      <div aria-hidden="true" className="hairline container-x absolute inset-x-0 top-0 max-w-[900px]" />
+    <section id="process" aria-labelledby="process-title" className="py-24 sm:py-32">
       <div className="container-x">
-        <SectionHead id="process-title" title={process.heading} sub={process.sub} />
-        <ol className="relative mt-20 grid gap-4 [perspective:1200px] md:grid-cols-4">
-          <span aria-hidden="true" className="absolute left-0 right-0 top-[27px] hidden h-px bg-gradient-to-r from-crimson/0 via-crimson/50 to-amber/0 md:block" />
-          {process.steps.map((s, i) => (
-            <m.li
-              key={s.name}
-              className="relative rounded-2xl bg-card p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] transition-colors duration-300 hover:bg-raised"
-              initial={{ opacity: 0, y: 40, rotateX: -25, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
-              whileHover={{ rotateX: 4, rotateY: -4, y: -6, transition: { type: 'spring', stiffness: 260, damping: 30 } }}
-            >
-              <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-bg font-mono text-[13px] text-white/70 ring-1 ring-white/15">
-                {i + 1}
-              </span>
-              <h3 className="mt-6 text-[20px] font-semibold tracking-[-0.02em]">{s.name}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-white/55">{s.body}</p>
-            </m.li>
-          ))}
+        <SectionHead id="process-title" eyebrow="How we work" title={process.heading} sub={process.sub} />
+        <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {process.steps.map((s, i) => {
+            const Icon = icons[i]
+            const last = i === process.steps.length - 1
+            return (
+              <m.li
+                key={s.name}
+                className={`card relative p-6 ${last ? 'border-crimson/40' : ''}`}
+                initial={reduce ? false : { opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, ease, delay: i * 0.08 }}
+              >
+                <div className="flex items-center justify-between">
+                  <span className={`font-display text-[28px] font-bold tracking-[-0.03em] ${last ? 'text-crimson' : 'text-crimson/35'}`}>0{i + 1}</span>
+                  <Icon className={`h-5 w-5 ${last ? 'text-crimson' : 'text-muted'}`} aria-hidden="true" />
+                </div>
+                <h3 className="mt-5 text-[19px] font-semibold tracking-[-0.015em]">{s.name}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted">{s.body}</p>
+              </m.li>
+            )
+          })}
         </ol>
       </div>
     </section>

@@ -3,37 +3,35 @@ import mark from '../assets/eagle-forge-symbol-on-dark.svg'
 import Wordmark from './Wordmark.jsx'
 
 const columns = [
-  ['Solutions', [['Tally insights', '#solutions'], ['WhatsApp reminders', '#solutions'], ['Store sync', '#solutions'], ['Devices', '#solutions'], ['IT consultation', '#solutions']]],
+  ['Solutions', [['Tally + AI', '#solutions'], ['WhatsApp reminders', '#solutions'], ['Store sync', '#solutions'], ['Devices', '#solutions'], ['IT consultation', '#solutions']]],
   ['Products', [['Keryo', '#products'], ['Keryo Insights', '#products'], ['In the pipeline', '#pipeline']]],
   ['Company', [['How we work', '#process'], ['About', '#about'], ['Questions', '#faq'], ['Contact', '#contact']]],
 ]
 
 export default function Footer() {
   return (
-    <footer aria-labelledby="footer-title" className="border-t border-white/[0.06] pt-16">
+    <footer aria-labelledby="footer-title" className="border-t border-line bg-panel">
       <h2 id="footer-title" className="sr-only">
         Eagle Nexa
       </h2>
-      <div className="container-x grid gap-12 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
-        <div className="sm:col-span-2 md:col-span-4 lg:col-span-1">
-          <div className="flex items-center gap-3">
-            <img src={mark} alt="" width="52" height="52" className="h-[52px] w-[52px]" loading="lazy" />
-            <div>
-              <Wordmark size="text-[32px]" underline />
-              <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-amber">AI · Automation</p>
-            </div>
+      <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="sm:col-span-2 lg:col-span-1">
+          <div className="flex items-center gap-2.5">
+            <img src={mark} alt="" width="36" height="36" className="h-9 w-9" loading="lazy" />
+            <Wordmark size="text-[24px]" underline />
           </div>
-          <p className="mt-5 max-w-[300px] text-[14px] leading-relaxed text-white/45">
-            Integrated technology for small businesses: accounting, online sales, customer messaging, devices and web presence in one working system.
+          <p className="mt-2 font-display text-[13px] font-semibold uppercase tracking-[0.08em] text-amber">AI · Automation</p>
+          <p className="mt-4 max-w-[300px] text-[14.5px] leading-relaxed text-muted">
+            Accounting, online sales, customer messaging, devices and your website, joined into one working system.
           </p>
         </div>
         {columns.map(([title, links]) => (
           <nav key={title} aria-label={title}>
-            <p className="text-[13px] font-semibold text-white/80">{title}</p>
-            <ul className="mt-4 space-y-3 text-[14px] text-white/45">
+            <p className="font-display text-[14px] font-semibold text-white">{title}</p>
+            <ul className="mt-4 space-y-2.5 text-[14.5px]">
               {links.map(([l, h]) => (
                 <li key={l}>
-                  <a href={h} className="transition-colors hover:text-white">
+                  <a href={h} className="text-muted transition-colors hover:text-crimson">
                     {l}
                   </a>
                 </li>
@@ -41,23 +39,12 @@ export default function Footer() {
             </ul>
           </nav>
         ))}
-        <div>
-          <p className="text-[13px] font-semibold text-white/80">Visit</p>
-          <address className="mt-4 text-[14px] not-italic leading-relaxed text-white/45">
-            {site.address.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </address>
-          <a href={`mailto:${site.email}`} className="mt-4 inline-block text-[14px] [overflow-wrap:anywhere] text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">
-            {site.email}
-          </a>
-        </div>
       </div>
-      <div className="container-x mt-16 flex flex-col gap-2 border-t border-white/[0.06] py-6 text-[13px] text-white/35 sm:flex-row sm:justify-between">
-        <p>© {new Date().getFullYear()} Eagle Nexa, Vijayawada</p>
-        <p>Set in Geist and Fraunces (SIL Open Font License)</p>
+      <div className="border-t border-line">
+        <div className="container-x flex flex-col gap-2 py-6 text-[13px] text-muted sm:flex-row sm:justify-between">
+          <p>© {new Date().getFullYear()} Eagle Nexa, Vijayawada</p>
+          <p>{site.address[2]}</p>
+        </div>
       </div>
     </footer>
   )

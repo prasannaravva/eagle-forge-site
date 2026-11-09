@@ -53,7 +53,7 @@ export function Accordion({
                   <span
                     className={cn(
                       "text-[22px] font-bold leading-[1.1] transition-colors duration-300",
-                      on ? "text-foreground" : "text-foreground/40 hover:text-foreground/60"
+                      on ? "text-foreground" : "text-foreground/75 hover:text-foreground"
                     )}
                   >
                     {it.title}
@@ -98,7 +98,7 @@ export function Accordion({
                   >
                     {/* left — body + deliverables */}
                     <div>
-                      <p className="max-w-xl text-[14px] font-light leading-[1.55] text-foreground/50">{it.body}</p>
+                      <p className="max-w-xl text-[14px] leading-[1.6] text-muted">{it.body}</p>
                       {it.deliverables && it.deliverables.length > 0 && (
                         <ul className="mt-5 flex flex-col gap-2.5">
                           {it.deliverables.map((d) => (

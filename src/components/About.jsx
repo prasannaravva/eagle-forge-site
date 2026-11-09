@@ -1,64 +1,58 @@
+import { ArrowUpRight, MapPin } from 'lucide-react'
 import { site } from '../config/site.js'
 import Reveal from './Reveal.jsx'
-import Tilt from './Tilt.jsx'
 
 export default function About() {
   const { about, address, mapUrl } = site
   return (
-    <section id="about" aria-labelledby="about-title" className="overflow-x-clip py-28 sm:py-36">
-      <div className="container-x grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+    <section id="about" aria-labelledby="about-title" className="border-t border-line bg-panel py-24 sm:py-32">
+      <div className="container-x grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
         <Reveal>
-          <h2 id="about-title" className="max-w-[16ch] text-[clamp(2.25rem,1.5rem+2.4vw,3.5rem)] font-semibold leading-[1.04] tracking-head">
+          <p className="eyebrow">About us</p>
+          <h2 id="about-title" className="mt-4 max-w-[20ch] text-[clamp(2rem,1.4rem+2.2vw,3rem)] font-bold leading-[1.08] tracking-[-0.035em]">
             {about.heading}
           </h2>
-          <p className="mt-6 max-w-[520px] text-[17px] leading-relaxed text-white/60">{about.body}</p>
-          <ul className="mt-8 flex flex-wrap gap-2" aria-label="Who we work with">
+          <p className="mt-5 max-w-[36rem] text-[17px] leading-relaxed text-muted">{about.body}</p>
+          <ul className="mt-7 flex flex-wrap gap-2" aria-label="Who we work with">
             {about.audiences.map((a) => (
-              <li key={a} className="chip">
+              <li key={a} className="rounded-full border border-line bg-card px-3.5 py-1.5 text-[14px] text-white">
                 {a}
               </li>
             ))}
           </ul>
-          <dl className="mt-12 grid gap-6 sm:grid-cols-3">
+          <dl className="mt-10 grid gap-6 sm:grid-cols-3">
             {about.values.map(([k, v]) => (
-              <div key={k}>
-                <dt className="text-[15px] font-semibold">{k}</dt>
-                <dd className="mt-1 text-[14px] leading-relaxed text-white/50">{v}</dd>
+              <div key={k} className="border-l-2 border-crimson pl-4">
+                <dt className="font-display text-[16px] font-semibold">{k}</dt>
+                <dd className="mt-1 text-[14.5px] leading-relaxed text-muted">{v}</dd>
               </div>
             ))}
           </dl>
         </Reveal>
 
-        <Reveal delay={0.1} className="relative">
-          <div aria-hidden="true" className="glow-crimson pointer-events-none absolute -inset-10 -z-10 blur-2xl" />
-          <Tilt max={5}>
-          <div className="rounded-3xl bg-card p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.07)]">
-            <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-crimson/15 text-crimson-soft ring-1 ring-crimson/30">
-                <svg viewBox="0 0 20 20" className="h-5 w-5" aria-hidden="true">
-                  <path d="M10 18s6-5.6 6-10A6 6 0 0 0 4 8c0 4.4 6 10 6 10zm0-7.5A2.5 2.5 0 1 0 10 5.5a2.5 2.5 0 0 0 0 5z" fill="currentColor" />
-                </svg>
-              </span>
-              <p className="text-[15px] font-semibold">Visit the office</p>
-            </div>
-            <address className="mt-6 text-[17px] not-italic leading-relaxed text-white/80">
+        <Reveal delay={0.08}>
+          <div className="card p-7">
+            <span className="grid h-10 w-10 place-items-center rounded-md bg-crimson/[0.08] text-crimson">
+              <MapPin className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <h3 className="mt-5 text-[20px] font-semibold tracking-[-0.015em]">Visit the office</h3>
+            <address className="mt-3 text-[16px] not-italic leading-relaxed text-muted">
               {address.map((l) => (
                 <span key={l} className="block">
                   {l}
                 </span>
               ))}
             </address>
-            <div className="hairline my-7" aria-hidden="true" />
-            <div className="flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3 border-t border-line pt-6">
               <a href={mapUrl} className="btn-ghost" target="_blank" rel="noopener noreferrer">
                 Open in Maps
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
               <a href="#contact" className="btn-primary">
-                Talk to us <span className="h-1.5 w-1.5 rounded-full bg-crimson" aria-hidden="true" />
+                Talk to us
               </a>
             </div>
           </div>
-          </Tilt>
         </Reveal>
       </div>
     </section>

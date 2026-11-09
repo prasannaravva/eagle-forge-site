@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  // Dark is the default theme: <html class="dark"> (removed for the light theme) turns on dark: variants.
+  // Light is the default theme; <html class="dark"> turns on dark: variants.
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
@@ -14,7 +14,9 @@ export default {
         card: 'rgb(var(--c-card) / <alpha-value>)',
         raised: 'rgb(var(--c-raised) / <alpha-value>)',
         // Accents deepen on the light theme so they keep their contrast (values in index.css).
-        crimson: { DEFAULT: '#c81e3a', soft: 'rgb(var(--c-crimson-soft) / <alpha-value>)' },
+        crimson: { DEFAULT: 'rgb(var(--c-crimson) / <alpha-value>)', soft: 'rgb(var(--c-crimson-soft) / <alpha-value>)' },
+        muted: 'rgb(var(--c-muted) / <alpha-value>)',
+        line: 'rgb(var(--c-line) / <alpha-value>)',
         amber: { DEFAULT: 'rgb(var(--c-amber) / <alpha-value>)', soft: 'rgb(var(--c-amber-soft) / <alpha-value>)' },
         ok: 'rgb(var(--c-ok) / <alpha-value>)',
         // shadcn component tokens, mapped to the site palette
@@ -22,10 +24,10 @@ export default {
         foreground: 'rgb(var(--c-fg) / <alpha-value>)',
       },
       fontFamily: {
-        sans: ['Geist', '-apple-system', 'system-ui', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        sans: ['"DM Sans"', '-apple-system', 'system-ui', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        display: ['"Space Grotesk"', '"DM Sans"', 'system-ui', 'sans-serif'],
         brand: ['Fraunces', 'Georgia', 'serif'],
-        nav: ['"Inter Tight"', 'Geist', 'system-ui', 'sans-serif'],
-        mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       letterSpacing: {
         display: '-0.045em',

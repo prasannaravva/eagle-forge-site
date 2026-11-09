@@ -1,9 +1,13 @@
 import { useId, useMemo, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
+import { ArrowRight, Check, Mail, MapPin, Sparkles } from 'lucide-react'
 import { site } from '../config/site.js'
 import Reveal from './Reveal.jsx'
-import ParticleCanvas from './ParticleCanvas.jsx'
 
+/**
+ * Contact: office details on the left; on the right the visitor ticks the tools they run, sees
+ * the connections we would set up, and sends an enquiry email with their answers filled in.
+ */
 export default function Enquiry() {
   const { enquiry } = site
   const [picked, setPicked] = useState(['tally', 'whatsapp'])
@@ -28,108 +32,124 @@ export default function Enquiry() {
     return `mailto:${site.email}?subject=${encodeURIComponent(`Enquiry from ${name || 'the website'}`)}&body=${encodeURIComponent(body)}`
   }, [name, reach, picked, flows, enquiry.tools])
 
+  const field =
+    'h-11 w-full rounded-md border border-line bg-card px-3.5 text-[15px] text-white placeholder:text-muted/80 transition-[border-color,box-shadow] focus:border-crimson focus:outline-none focus:ring-2 focus:ring-crimson/20'
+
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden py-28 sm:py-36">
-      <div aria-hidden="true" className="glow-crimson pointer-events-none absolute left-1/2 top-24 -z-10 h-[520px] w-[900px] -translate-x-1/2 blur-3xl" />
-      <ParticleCanvas className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-60 [mask-image:radial-gradient(70%_60%_at_50%_50%,black_0%,transparent_100%)]" />
+    <section id="contact" aria-labelledby="contact-title" className="pb-24 sm:pb-32">
       <div className="container-x">
-        <Reveal className="text-center">
-          <h2 id="contact-title" className="text-[clamp(2.75rem,1.4rem+5vw,5.5rem)] font-bold leading-[0.95] tracking-display">
-            <span className="block">{enquiry.heading[0]}</span>
-            <span className="text-gradient block pb-[0.08em]">{enquiry.heading[1]}</span>
-          </h2>
-          <p className="mx-auto mt-6 max-w-[520px] text-[17px] text-white/55">{enquiry.sub}</p>
-        </Reveal>
-
-        <Reveal delay={0.1} className="mx-auto mt-14 max-w-[920px]">
-          <div className="rounded-3xl bg-panel/90 p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_30px_80px_-20px_rgba(0,0,0,0.8)] sm:p-8">
-            <fieldset>
-              <legend className="text-[14px] text-white/50">What does your business run on today?</legend>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {enquiry.tools.map((t) => {
-                  const on = picked.includes(t.id)
-                  return (
-                    <button
-                      key={t.id}
-                      type="button"
-                      aria-pressed={on}
-                      onClick={() => toggle(t.id)}
-                      className={`inline-flex h-10 items-center gap-2 rounded-full px-4 text-[14px] font-medium ring-1 ring-inset transition-all duration-300 active:scale-[0.97] ${
-                        on ? 'bg-white text-bg ring-white' : 'bg-white/[0.03] text-white/70 ring-white/10 hover:bg-white/[0.06] hover:text-white'
-                      }`}
-                    >
-                      <span className={`h-1.5 w-1.5 rounded-full ${on ? 'bg-crimson' : 'bg-white/25'}`} aria-hidden="true" />
-                      {t.label}
-                    </button>
-                  )
-                })}
+        <Reveal>
+          <div className="card grid overflow-hidden lg:grid-cols-[0.9fr_1.1fr]">
+            {/* Left: who and where */}
+            <div className="flex flex-col gap-8 border-b border-line bg-panel p-7 sm:p-10 lg:border-b-0 lg:border-r">
+              <div>
+                <p className="eyebrow">Get in touch</p>
+                <h2 id="contact-title" className="mt-4 text-[clamp(2rem,1.4rem+2.2vw,3rem)] font-bold leading-[1.08] tracking-[-0.035em]">
+                  {enquiry.heading[0]} <span className="text-crimson">{enquiry.heading[1]}</span>
+                </h2>
+                <p className="mt-4 max-w-[30rem] text-[16.5px] leading-relaxed text-muted">{enquiry.sub}</p>
               </div>
-            </fieldset>
-
-            <div id={ids.flows} aria-live="polite" className="mt-6 rounded-2xl bg-white/[0.025] p-5 ring-1 ring-inset ring-white/[0.06]">
-              <p className="text-[14px] font-medium text-white/80">
-                {flows.length === 0 ? 'Tick a tool to see what we would connect.' : `${flows.length} connection${flows.length > 1 ? 's' : ''} we would set up`}
-              </p>
-              <ul className="mt-3 grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
-                <AnimatePresence initial={false}>
-                  {flows.map((f) => (
-                    <m.li
-                      key={f.text}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex gap-2.5 text-[14px] leading-snug text-white/65"
-                    >
-                      <svg viewBox="0 0 12 12" className="mt-[3px] h-3 w-3 shrink-0 text-ok" aria-hidden="true">
-                        <path d="M2 6.5 4.8 9 10 3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      {f.text}
-                    </m.li>
-                  ))}
-                </AnimatePresence>
+              <ul className="space-y-5 text-[15px]">
+                <li className="flex gap-3">
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-crimson" aria-hidden="true" />
+                  <span>
+                    <span className="block font-display font-semibold text-white">Eagle Nexa</span>
+                    <span className="text-muted">{site.address.join(', ')}</span>
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <Mail className="mt-0.5 h-5 w-5 shrink-0 text-crimson" aria-hidden="true" />
+                  <a href={`mailto:${site.email}`} className="text-white underline decoration-line underline-offset-4 hover:decoration-crimson [overflow-wrap:anywhere]">
+                    {site.email}
+                  </a>
+                </li>
               </ul>
+              <div className="mt-auto rounded-md border border-line bg-card p-4 text-[14px] text-muted">
+                <span className="font-display font-semibold text-white">On-site setup</span> across Vijayawada, Guntur and the Krishna district. Remote setup anywhere.
+              </div>
             </div>
 
-            <form
-              className="mt-6 grid gap-3 sm:grid-cols-[1fr_1fr_auto]"
-              onSubmit={(e) => {
-                e.preventDefault()
-                window.location.href = mailto
-              }}
-              aria-describedby={ids.flows}
-            >
-              <div>
-                <label htmlFor={ids.name} className="sr-only">
-                  Your name
-                </label>
-                <input
-                  id={ids.name}
-                  autoComplete="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your name"
-                  className="h-12 w-full rounded-full bg-white/[0.04] px-5 text-[15px] text-white ring-1 ring-inset ring-white/10 transition placeholder:text-white/35 focus:bg-white/[0.07] focus:outline-none focus:ring-white/30"
-                />
-              </div>
-              <div>
-                <label htmlFor={ids.reach} className="sr-only">
-                  Phone or email
-                </label>
-                <input
-                  id={ids.reach}
-                  autoComplete="email"
-                  value={reach}
-                  onChange={(e) => setReach(e.target.value)}
-                  placeholder="Phone or email"
-                  className="h-12 w-full rounded-full bg-white/[0.04] px-5 text-[15px] text-white ring-1 ring-inset ring-white/10 transition placeholder:text-white/35 focus:bg-white/[0.07] focus:outline-none focus:ring-white/30"
-                />
-              </div>
-              <button type="submit" className="btn-primary h-12 justify-center px-7">
-                Send enquiry <span className="h-1.5 w-1.5 rounded-full bg-crimson" aria-hidden="true" />
-              </button>
-            </form>
-            <p className="mt-4 text-center text-[13px] text-white/35">Opens your email app with your answers filled in.</p>
+            {/* Right: the form */}
+            <div className="p-7 sm:p-10">
+              <form
+                className="grid gap-5"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  window.location.href = mailto
+                }}
+                aria-describedby={ids.flows}
+              >
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor={ids.name} className="font-display text-[13.5px] font-medium text-white">
+                      Your name
+                    </label>
+                    <input id={ids.name} autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Varma" className={`${field} mt-1.5`} />
+                  </div>
+                  <div>
+                    <label htmlFor={ids.reach} className="font-display text-[13.5px] font-medium text-white">
+                      Phone or email
+                    </label>
+                    <input id={ids.reach} autoComplete="email" value={reach} onChange={(e) => setReach(e.target.value)} placeholder="+91 or you@business.in" className={`${field} mt-1.5`} />
+                  </div>
+                </div>
+
+                <fieldset>
+                  <legend className="font-display text-[13.5px] font-medium text-white">What does your business run on today?</legend>
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {enquiry.tools.map((t) => {
+                      const on = picked.includes(t.id)
+                      return (
+                        <button
+                          key={t.id}
+                          type="button"
+                          aria-pressed={on}
+                          onClick={() => toggle(t.id)}
+                          className={`flex h-11 items-center gap-2.5 rounded-md border px-3 text-left text-[14px] transition-colors duration-200 ${
+                            on ? 'border-crimson bg-crimson/[0.06] text-white' : 'border-line bg-card text-muted hover:border-white/25 hover:text-white'
+                          }`}
+                        >
+                          <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-[3px] border ${on ? 'border-crimson bg-crimson text-[#fff]' : 'border-line'}`}>
+                            {on && <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" />}
+                          </span>
+                          {t.label}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </fieldset>
+
+                <div id={ids.flows} aria-live="polite" className="rounded-md border border-line bg-raised p-4">
+                  <p className="flex items-center gap-2 font-display text-[14px] font-semibold text-white">
+                    <Sparkles className="h-4 w-4 text-crimson" aria-hidden="true" />
+                    {flows.length === 0 ? 'Tick a tool to see what we would connect.' : `${flows.length} connection${flows.length > 1 ? 's' : ''} we would set up`}
+                  </p>
+                  <ul className="mt-2.5 space-y-1.5">
+                    <AnimatePresence initial={false}>
+                      {flows.map((f) => (
+                        <m.li
+                          key={f.text}
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="flex gap-2 text-[14px] leading-snug text-muted"
+                        >
+                          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ok" aria-hidden="true" />
+                          {f.text}
+                        </m.li>
+                      ))}
+                    </AnimatePresence>
+                  </ul>
+                </div>
+
+                <button type="submit" className="btn-primary h-12 w-full text-[15.5px]">
+                  Send enquiry
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </button>
+                <p className="-mt-2 text-center text-[13px] text-muted">Opens your email app with your answers filled in.</p>
+              </form>
+            </div>
           </div>
         </Reveal>
       </div>

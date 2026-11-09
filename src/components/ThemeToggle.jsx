@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const COLORS = { dark: '#09090B', light: '#FAF9F6' }
+const COLORS = { dark: '#090C12', light: '#FAFAFA' }
 
 function apply(theme) {
   const root = document.documentElement
@@ -54,12 +54,12 @@ export default function ThemeToggle({ className = '' }) {
       onClick={onClick}
       aria-label={`Switch to ${next} theme`}
       title={`Switch to ${next} theme`}
-      className={`group relative grid h-10 w-10 place-items-center overflow-hidden rounded-xl text-white/75 ring-1 ring-inset ring-white/15 transition-colors duration-300 hover:bg-white/5 hover:text-white ${className}`}
+      className={`group relative grid h-10 w-10 place-items-center overflow-hidden rounded-md border border-line bg-card text-muted transition-colors duration-200 hover:bg-raised hover:text-white ${className}`}
     >
       {/* Sun (shown on dark: "go light") */}
       <svg
         width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true"
-        className={`absolute transition-all duration-500 ease-out ${theme === 'dark' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-50 opacity-0'}`}
+        className={`absolute transition-[transform,opacity] duration-500 ease-out ${theme === 'dark' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-50 opacity-0'}`}
       >
         <circle cx="12" cy="12" r="4" />
         <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" />
@@ -67,7 +67,7 @@ export default function ThemeToggle({ className = '' }) {
       {/* Moon (shown on light: "go dark") */}
       <svg
         width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
-        className={`absolute transition-all duration-500 ease-out ${theme === 'light' ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-50 opacity-0'}`}
+        className={`absolute transition-[transform,opacity] duration-500 ease-out ${theme === 'light' ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-50 opacity-0'}`}
       >
         <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" />
       </svg>

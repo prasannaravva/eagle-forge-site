@@ -21,7 +21,8 @@ export const site = {
   hero: {
     badge: 'AI integration studio · Vijayawada',
     title: ['Your business,', 'connected.'],
-    sub: 'Eagle Nexa joins your Tally, online store, WhatsApp and devices into one working system, with AI on top. One view of the business, instead of five tools that never talk.',
+    sub: 'We join your Tally, online store, WhatsApp and devices into one working system, then put AI on top, so you can ask your business a question and get the answer from your own figures.',
+    points: ['Works with the Tally you already run', 'Alerts on WhatsApp', 'Set up in Vijayawada'],
   },
 
   worksWith: ['Tally', 'Shopify', 'WooCommerce', 'WhatsApp Business', 'IoT sensors', 'Your website'],
