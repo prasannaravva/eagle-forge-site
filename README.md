@@ -17,7 +17,7 @@ Every push to `main` rebuilds and redeploys the preview through GitHub Actions (
 
 ## Before launch
 
-1. **Contact email:** set `email` in `src/config/site.js` (it is `hello@eaglenexa.example` now). Add a phone number or WhatsApp link there too if you want one.
+1. **Contact email:** `hello@eaglenexa.ai` (`email` in `src/config/site.js`). Make sure that mailbox exists and receives mail. Add a phone number or WhatsApp link there too if you want one.
 2. **Example data:** the product windows use sample business names and figures. Keep them as illustrations or swap in real screenshots.
 3. **Meta:** check `<title>` and `<meta name="description">` in `index.html`.
 

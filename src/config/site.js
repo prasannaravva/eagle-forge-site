@@ -4,8 +4,8 @@
  */
 export const site = {
   name: 'Eagle Nexa',
-  // TODO: the brief gives no email or phone. Set the address enquiries should go to.
-  email: 'hello@eaglenexa.example',
+  // Enquiries go here (the enquiry form opens an email to this address).
+  email: 'hello@eaglenexa.ai',
   address: ['Shop No 4, Mahatma Gandhi Commercial Complex', 'Mahendra Nagar, Gollapudi', 'Vijayawada, Andhra Pradesh 520012'],
   mapUrl:
     'https://www.google.com/maps/search/?api=1&query=Mahatma+Gandhi+Commercial+Complex+Mahendra+Nagar+Gollapudi+Vijayawada+520012',
