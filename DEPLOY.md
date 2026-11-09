@@ -1,71 +1,38 @@
-# Hosting eaglenexa.ai on an Oracle Cloud VM (Docker)
+# Hosting eaglenexa.ai on the Oracle Cloud VM (Docker behind the existing nginx)
 
-The site runs as one Docker container: the static build served by [Caddy](https://caddyserver.com), which gets and renews the HTTPS certificate for `eaglenexa.ai` by itself (Let's Encrypt). `www.eaglenexa.ai` redirects to `eaglenexa.ai`.
+The site runs as one Docker container: the static build served by nginx on plain HTTP, published on `127.0.0.1:8080` only. The nginx already running on the VM is the reverse proxy: it answers for `eaglenexa.ai`, handles HTTPS (certbot), and forwards requests to the container. `www.eaglenexa.ai` redirects to `eaglenexa.ai`.
 
-Files: `Dockerfile` (build + serve), `deploy/Caddyfile` (web server), `docker-compose.yml` (ports, domain, certificate storage).
+```
+visitor ──https──▶ host nginx (80/443, certbot) ──http──▶ 127.0.0.1:8080 ──▶ container (nginx + site)
+```
+
+Files:
+
+- `Dockerfile`: builds the site, then serves it with nginx.
+- `deploy/nginx-container.conf`: nginx inside the container (caching, compression, page fallback, `/healthz`).
+- `docker-compose.yml`: runs the container on `127.0.0.1:8080`.
+- `deploy/nginx-host-eaglenexa.ai.conf`: the site config to add to the existing nginx.
 
 ## 1. Point the domain at the VM
 
-At your domain registrar's DNS settings, using the VM's **public IP** (OCI Console → Compute → Instances → your instance):
+At the domain registrar, using the VM's public IP:
 
 | Type | Name | Value |
 |------|------|-------|
 | A | `@` (eaglenexa.ai) | the VM's public IP |
 | A | `www` | the same IP |
 
-Remove any other A or AAAA records for `@` and `www` (for example a registrar's parking page), or the certificate request can fail. Check it from your Mac before going on:
+Remove the other A records for `@` and `www` (the domain currently points at the registrar's parking servers, `3.33.130.190` and `15.197.148.33`). Check before going on; it should print the VM's IP:
 
 ```bash
 dig +short eaglenexa.ai
 ```
 
-It should print the VM's IP. DNS changes can take a few minutes to an hour.
+Ports 80 and 443 are already open if the existing nginx serves other sites over HTTPS; nothing changes there. Port 8080 is not opened anywhere: the container only listens on the VM itself.
 
-## 2. Open ports 80 and 443
+## 2. Start the website container
 
-Oracle blocks these twice: in the cloud network and in the VM's own firewall. Both must be opened.
-
-**Cloud network.** OCI Console → Networking → Virtual Cloud Networks → your VCN → Security Lists → Default Security List → Add Ingress Rules:
-
-- Source CIDR `0.0.0.0/0`, IP protocol TCP, destination port `80`
-- Source CIDR `0.0.0.0/0`, IP protocol TCP, destination port `443`
-- (optional, for HTTP/3) Source CIDR `0.0.0.0/0`, IP protocol UDP, destination port `443`
-
-**VM firewall.** On **Ubuntu** images (OCI ships them with iptables rules that reject everything except SSH):
-
-```bash
-sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 80 -j ACCEPT
-```
-
-```bash
-sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
-```
-
-```bash
-sudo netfilter-persistent save
-```
-
-On **Oracle Linux** images:
-
-```bash
-sudo firewall-cmd --permanent --add-service=http --add-service=https && sudo firewall-cmd --reload
-```
-
-## 3. Install Docker on the VM
-
-SSH in (`ssh ubuntu@<ip>` on Ubuntu, `ssh opc@<ip>` on Oracle Linux), then on Ubuntu:
-
-```bash
-curl -fsSL https://get.docker.com | sudo sh
-```
-
-```bash
-sudo usermod -aG docker $USER
-```
-
-Log out and back in so the group change applies. On Oracle Linux, install Docker CE from Docker's repository (`dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo`, then `sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin` and `sudo systemctl enable --now docker`).
-
-## 4. Get the site and start it
+Install Docker if it is not there yet (Ubuntu: `curl -fsSL https://get.docker.com | sudo sh`, then `sudo usermod -aG docker $USER` and log in again). Then:
 
 ```bash
 git clone https://github.com/prasannaravva/eagle-forge-site.git && cd eagle-forge-site
@@ -75,15 +42,47 @@ git clone https://github.com/prasannaravva/eagle-forge-site.git && cd eagle-forg
 docker compose up -d --build
 ```
 
-The image is built on the VM itself, so it matches the VM's processor (the free Ampere VMs are arm64; that works as is). The first start takes a minute or two; Caddy then requests the certificate. Watch it with:
+The image is built on the VM, so it matches its processor (Ampere arm64 included). Check it answers:
 
 ```bash
-docker compose logs -f
+curl -I http://127.0.0.1:8080
 ```
 
-Look for `certificate obtained successfully` for `eaglenexa.ai` and `www.eaglenexa.ai`, then open https://eaglenexa.ai.
+If port 8080 is already taken on the VM, start it on another port with `SITE_PORT=8090 docker compose up -d --build` and use that port in step 3.
 
-## 5. Updating the site
+## 3. Add the site to the existing nginx
+
+On **Ubuntu/Debian** layouts:
+
+```bash
+sudo cp deploy/nginx-host-eaglenexa.ai.conf /etc/nginx/sites-available/eaglenexa.ai
+```
+
+```bash
+sudo ln -s /etc/nginx/sites-available/eaglenexa.ai /etc/nginx/sites-enabled/eaglenexa.ai
+```
+
+On **Oracle Linux/RHEL** layouts, copy it to `/etc/nginx/conf.d/eaglenexa.ai.conf` instead. Then test and reload:
+
+```bash
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+On Oracle Linux with SELinux enforcing, nginx needs permission to connect to the container port once:
+
+```bash
+sudo setsebool -P httpd_can_network_connect 1
+```
+
+## 4. Turn on HTTPS
+
+```bash
+sudo certbot --nginx -d eaglenexa.ai -d www.eaglenexa.ai
+```
+
+certbot adds the 443 server and the http to https redirect to the same file, and renews the certificate on its own. Then open https://eaglenexa.ai.
+
+## Updating the site
 
 After changes are pushed to `main`:
 
@@ -91,11 +90,11 @@ After changes are pushed to `main`:
 cd ~/eagle-forge-site && git pull && docker compose up -d --build
 ```
 
-Certificates are kept in the `caddy_data` volume, so rebuilds do not request new ones.
+The host nginx needs no change for updates.
 
 ## Troubleshooting
 
-- **Certificate errors in the logs:** DNS does not point at this VM yet (step 1), or port 80/443 is still blocked (step 2). Fix it and run `docker compose restart`. Let's Encrypt limits repeated failures, so check DNS with `dig` first.
-- **Site does not load at all:** check the container is up with `docker compose ps`, and test from the VM with `curl -I http://localhost`.
-- **Different domain or a staging test:** `DOMAIN=staging.eaglenexa.ai docker compose up -d --build`.
-- **Never use `docker compose down -v`**: `-v` deletes the certificate volume.
+- **502 Bad Gateway:** the container is not running or is on another port. Check `docker compose ps` and `curl -I http://127.0.0.1:8080`; on Oracle Linux, the SELinux setting in step 3.
+- **certbot fails:** DNS does not point at this VM yet (step 1), or another server block already claims `eaglenexa.ai`. Check with `sudo nginx -T | grep -n eaglenexa`.
+- **Old page after an update:** the page itself is sent with `no-cache`, so a normal reload shows the new version; if a CDN or cache sits in front of nginx, purge it.
+- **Container health:** `docker inspect --format '{{.State.Health.Status}}' eaglenexa-site` should say `healthy`.

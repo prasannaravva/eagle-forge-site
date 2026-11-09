@@ -1,22 +1,12 @@
 # Run on the server with:  docker compose up -d --build
+# The site listens on 127.0.0.1 only; the existing nginx on the host proxies eaglenexa.ai to it
+# (see deploy/nginx-host-eaglenexa.ai.conf).
 services:
   web:
     build: .
     image: eaglenexa-site:latest
     container_name: eaglenexa-site
     restart: unless-stopped
-    environment:
-      # The domain Caddy serves and gets a certificate for. Its DNS A record must point at this server.
-      DOMAIN: ${DOMAIN:-eaglenexa.ai}
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    volumes:
-      # Keeps the HTTPS certificates across restarts and rebuilds (avoids Let's Encrypt rate limits).
-      - caddy_data:/data
-      - caddy_config:/config
-
-volumes:
-  caddy_data:
-  caddy_config:
+      # Change SITE_PORT if 8080 is already used on the server, and match it in the host nginx config.
+      - "127.0.0.1:${SITE_PORT:-8080}:80"

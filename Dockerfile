@@ -1,4 +1,5 @@
-# Eagle Nexa website: build the static site, then serve it with Caddy (automatic HTTPS).
+# Eagle Nexa website: build the static site, then serve it with nginx on plain HTTP.
+# HTTPS and the domain are handled by the nginx reverse proxy already on the server.
 # Works on x86 and on Oracle's Ampere (arm64) VMs: both base images are multi-arch.
 
 # 1. Build
@@ -11,7 +12,8 @@ COPY . .
 RUN npm run build
 
 # 2. Serve
-FROM caddy:2-alpine
-COPY deploy/Caddyfile /etc/caddy/Caddyfile
-COPY --from=build /app/dist /srv
-EXPOSE 80 443 443/udp
+FROM nginx:1.27-alpine
+COPY deploy/nginx-container.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 CMD wget -qO- http://127.0.0.1/healthz || exit 1
