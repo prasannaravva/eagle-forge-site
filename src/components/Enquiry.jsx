@@ -13,6 +13,9 @@ export default function Enquiry() {
   const [picked, setPicked] = useState(['tally', 'whatsapp'])
   const [name, setName] = useState('')
   const [reach, setReach] = useState('')
+  const [website, setWebsite] = useState('') // honeypot, left empty by real visitors
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [errorMsg, setErrorMsg] = useState('')
   const ids = { name: useId(), reach: useId(), flows: useId() }
 
   const flows = useMemo(() => enquiry.flows.filter((f) => f.needs.every((n) => picked.includes(n))), [picked, enquiry.flows])
@@ -31,6 +34,30 @@ export default function Enquiry() {
     ].join('\n')
     return `mailto:${site.email}?subject=${encodeURIComponent(`Enquiry from ${name || 'the website'}`)}&body=${encodeURIComponent(body)}`
   }, [name, reach, picked, flows, enquiry.tools])
+
+  const submit = async (e) => {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          reach,
+          website,
+          tools: enquiry.tools.filter((t) => picked.includes(t.id)).map((t) => t.label),
+          flows: flows.map((f) => f.text),
+        }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      setStatus('sent')
+    } catch (err) {
+      setErrorMsg(err.message === 'Failed to fetch' ? 'We could not reach the server.' : err.message)
+      setStatus('error')
+    }
+  }
 
   const field =
     'h-11 w-full rounded-md border border-line bg-card px-3.5 text-[15px] text-white placeholder:text-muted/80 transition-[border-color,box-shadow] focus:border-crimson focus:outline-none focus:ring-2 focus:ring-crimson/20'
@@ -73,10 +100,7 @@ export default function Enquiry() {
             <div className="p-7 sm:p-10">
               <form
                 className="grid gap-5"
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  window.location.href = mailto
-                }}
+                onSubmit={submit}
                 aria-describedby={ids.flows}
               >
                 <Stagger className="grid gap-4 sm:grid-cols-2" gap={0.1} delay={0.3}>
@@ -84,13 +108,13 @@ export default function Enquiry() {
                     <label htmlFor={ids.name} className="font-display text-[13.5px] font-medium text-white">
                       Your name
                     </label>
-                    <input id={ids.name} autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Varma" className={`${field} mt-1.5`} />
+                    <input id={ids.name} required maxLength={100} autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Varma" className={`${field} mt-1.5`} />
                   </Item>
                   <Item x={20} y={0}>
                     <label htmlFor={ids.reach} className="font-display text-[13.5px] font-medium text-white">
                       Phone or email
                     </label>
-                    <input id={ids.reach} autoComplete="email" value={reach} onChange={(e) => setReach(e.target.value)} placeholder="+91 or you@business.in" className={`${field} mt-1.5`} />
+                    <input id={ids.reach} required maxLength={120} autoComplete="email" value={reach} onChange={(e) => setReach(e.target.value)} placeholder="+91 or you@business.in" className={`${field} mt-1.5`} />
                   </Item>
                 </Stagger>
 
@@ -153,11 +177,25 @@ export default function Enquiry() {
                   </ul>
                 </div>
 
-                <button type="submit" className="btn-primary h-12 w-full text-[15.5px]">
-                  Send enquiry
+                <input type="text" name="website" value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 opacity-0" />
+
+                <button type="submit" disabled={status === 'sending' || status === 'sent'} className="btn-primary h-12 w-full text-[15.5px] disabled:opacity-70">
+                  {status === 'sending' ? 'Sending…' : status === 'sent' ? 'Sent' : 'Send enquiry'}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
-                <p className="-mt-2 text-center text-[13px] text-muted">Opens your email app with your answers filled in.</p>
+                <p role="status" aria-live="polite" className="-mt-2 text-center text-[13px] text-muted">
+                  {status === 'sent' && 'Thank you. We have your enquiry and will reply soon.'}
+                  {status === 'error' && (
+                    <>
+                      {errorMsg} Please{' '}
+                      <a href={mailto} className="text-white underline underline-offset-4">
+                        email us instead
+                      </a>
+                      .
+                    </>
+                  )}
+                  {(status === 'idle' || status === 'sending') && `We reply from ${site.email}.`}
+                </p>
               </form>
             </div>
           </div>

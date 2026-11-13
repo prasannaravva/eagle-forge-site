@@ -3,3 +3,7 @@ dist
 .taste-skill
 .DS_Store
 .omc
+.env
+.env.*
+!.env.example
+server/node_modules

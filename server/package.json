@@ -1,0 +1,8 @@
+{
+  "name": "eaglenexa-enquiry-api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "start": "node index.js", "test": "node --test" },
+  "dependencies": { "nodemailer": "^6.9.16" }
+}
