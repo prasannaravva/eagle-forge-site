@@ -10,3 +10,12 @@ services:
     ports:
       # 8092: 8080 is Nextcloud AIO and 8090/8091 are Eagle Coats on this VM. Change SITE_PORT if needed, and match it in the host nginx config.
       - "127.0.0.1:${SITE_PORT:-8092}:80"
+
+  api:
+    build: ./server
+    image: eaglenexa-api:latest
+    container_name: eaglenexa-api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:${API_PORT:-8093}:3000"

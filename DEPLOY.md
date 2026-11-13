@@ -98,3 +98,21 @@ The host nginx needs no change for updates.
 - **certbot fails:** DNS does not point at this VM yet (step 1), or another server block already claims `eaglenexa.ai`. Check with `sudo nginx -T | grep -n eaglenexa`.
 - **Old page after an update:** the page itself is sent with `no-cache`, so a normal reload shows the new version; if a CDN or cache sits in front of nginx, purge it.
 - **Container health:** `docker inspect --format '{{.State.Health.Status}}' eaglenexa-site` should say `healthy`.
+
+## Enquiry form (sends mail to hello@eaglenexa.ai)
+
+The form posts to `/api/enquiry`, served by the `api` container in `docker-compose.yml` (127.0.0.1:8093) and proxied by the host nginx (`location /api/` in `deploy/nginx-host-eaglenexa.ai.conf`; re-copy that file and reload nginx).
+
+On the VM, in the repo folder, create `.env` from `.env.example` and fill in the SMTP username and password (never commit it), then:
+
+```bash
+docker compose up -d --build
+```
+
+Test it:
+
+```bash
+curl -s -X POST https://eaglenexa.ai/api/enquiry -H 'Content-Type: application/json' -d '{"name":"Test","reach":"+910000000000"}'
+```
+
+`{"ok":true}` means the mail was accepted; check the hello@ inbox. If it returns 502, run `docker logs eaglenexa-api`.

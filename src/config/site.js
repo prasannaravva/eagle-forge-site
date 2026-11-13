@@ -4,7 +4,7 @@
  */
 export const site = {
   name: 'Eagle Nexa',
-  // Enquiries go here (the enquiry form opens an email to this address).
+  // Enquiries go here (the form posts to /api/enquiry, which mails this address; see server/).
   email: 'hello@eaglenexa.ai',
   address: ['Shop No 4, Mahatma Gandhi Commercial Complex', 'Mahendra Nagar, Gollapudi', 'Vijayawada, Andhra Pradesh 520012'],
   mapUrl:
