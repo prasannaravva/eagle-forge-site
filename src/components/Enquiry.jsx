@@ -1,6 +1,6 @@
 import { useId, useMemo, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
-import { ArrowRight, Check, Mail, MapPin, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, CheckCircle2, Loader2, Mail, MapPin, Sparkles } from 'lucide-react'
 import { site } from '../config/site.js'
 import Reveal, { Item, Stagger } from './Reveal.jsx'
 
@@ -12,11 +12,14 @@ export default function Enquiry() {
   const { enquiry } = site
   const [picked, setPicked] = useState(['tally', 'whatsapp'])
   const [name, setName] = useState('')
-  const [reach, setReach] = useState('')
+  const [mobile, setMobile] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [errors, setErrors] = useState({})
   const [website, setWebsite] = useState('') // honeypot, left empty by real visitors
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const [errorMsg, setErrorMsg] = useState('')
-  const ids = { name: useId(), reach: useId(), flows: useId() }
+  const ids = { name: useId(), mobile: useId(), email: useId(), message: useId(), flows: useId() }
 
   const flows = useMemo(() => enquiry.flows.filter((f) => f.needs.every((n) => picked.includes(n))), [picked, enquiry.flows])
   const toggle = (id) => setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))
@@ -25,7 +28,8 @@ export default function Enquiry() {
     const tools = enquiry.tools.filter((t) => picked.includes(t.id)).map((t) => t.label)
     const body = [
       `Name: ${name || '(not given)'}`,
-      `Phone or email: ${reach || '(not given)'}`,
+      `Mobile: ${mobile || '(not given)'}`,
+      `Email: ${email || '(not given)'}`,
       '',
       `Tools we use: ${tools.length ? tools.join(', ') : '(none ticked)'}`,
       '',
@@ -33,10 +37,24 @@ export default function Enquiry() {
       ...flows.map((f) => `- ${f.text}`),
     ].join('\n')
     return `mailto:${site.email}?subject=${encodeURIComponent(`Enquiry from ${name || 'the website'}`)}&body=${encodeURIComponent(body)}`
-  }, [name, reach, picked, flows, enquiry.tools])
+  }, [name, mobile, email, picked, flows, enquiry.tools])
+
+  const validate = () => {
+    const err = {}
+    if (!name.trim()) err.name = 'Please enter your name.'
+    if (!/^(?:\+?91|0)?[6-9]\d{9}$/.test(mobile.replace(/[\s\-().]/g, ''))) err.mobile = 'Enter a 10-digit mobile number, e.g. 98765 43210.'
+    if (email.trim() && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email.trim())) err.email = 'This email address does not look right.'
+    return err
+  }
 
   const submit = async (e) => {
     e.preventDefault()
+    const err = validate()
+    setErrors(err)
+    if (Object.keys(err).length) {
+      document.getElementById(ids[Object.keys(err)[0]])?.focus()
+      return
+    }
     setStatus('sending')
     try {
       const res = await fetch('/api/enquiry', {
@@ -44,19 +62,35 @@ export default function Enquiry() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name,
-          reach,
+          mobile,
+          email,
+          message,
           website,
           tools: enquiry.tools.filter((t) => picked.includes(t.id)).map((t) => t.label),
           flows: flows.map((f) => f.text),
         }),
       })
       const data = await res.json().catch(() => ({}))
+      if (res.status === 400 && data.errors) {
+        setErrors(data.errors)
+        setStatus('idle')
+        return
+      }
       if (!res.ok) throw new Error(data.error || 'Something went wrong.')
       setStatus('sent')
-    } catch (err) {
-      setErrorMsg(err.message === 'Failed to fetch' ? 'We could not reach the server.' : err.message)
+    } catch (err2) {
+      setErrorMsg(err2.message === 'Failed to fetch' ? 'We could not reach the server.' : err2.message)
       setStatus('error')
     }
+  }
+
+  const reset = () => {
+    setName('')
+    setMobile('')
+    setEmail('')
+    setMessage('')
+    setErrors({})
+    setStatus('idle')
   }
 
   const field =
@@ -98,23 +132,51 @@ export default function Enquiry() {
 
             {/* Right: the form */}
             <div className="p-7 sm:p-10">
+              {status === 'sent' ? (
+                <m.div role="status" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="flex h-full min-h-[24rem] flex-col items-center justify-center text-center">
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-ok/10 text-ok">
+                    <CheckCircle2 className="h-8 w-8" aria-hidden="true" />
+                  </span>
+                  <h3 className="mt-5 font-display text-[1.6rem] font-bold tracking-[-0.02em] text-white">Thank you, {name.trim().split(/\s+/)[0]}.</h3>
+                  <p className="mt-2 max-w-[24rem] text-[15.5px] leading-relaxed text-muted">
+                    We have your enquiry and will call you on <span className="text-white">{mobile.trim()}</span>
+                    {email.trim() && (
+                      <>
+                        {' '}
+                        or write to <span className="text-white [overflow-wrap:anywhere]">{email.trim()}</span>
+                      </>
+                    )}{' '}
+                    within one working day.
+                  </p>
+                  <button type="button" onClick={reset} className="mt-6 text-[14px] text-muted underline decoration-line underline-offset-4 hover:text-white hover:decoration-crimson">
+                    Send another enquiry
+                  </button>
+                </m.div>
+              ) : (
               <form
+                noValidate
                 className="grid gap-5"
                 onSubmit={submit}
                 aria-describedby={ids.flows}
               >
                 <Stagger className="grid gap-4 sm:grid-cols-2" gap={0.1} delay={0.3}>
-                  <Item x={20} y={0}>
-                    <label htmlFor={ids.name} className="font-display text-[13.5px] font-medium text-white">
-                      Your name
-                    </label>
-                    <input id={ids.name} required maxLength={100} autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Varma" className={`${field} mt-1.5`} />
+                  <Item x={20} y={0} className="sm:col-span-2">
+                    <Field id={ids.name} label="Your name" error={errors.name}>
+                      <input id={ids.name} autoComplete="name" maxLength={100} value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Varma" aria-invalid={!!errors.name} aria-describedby={errors.name ? `${ids.name}-err` : undefined} className={`${field} ${errors.name ? '!border-crimson' : ''}`} />
+                    </Field>
                   </Item>
                   <Item x={20} y={0}>
-                    <label htmlFor={ids.reach} className="font-display text-[13.5px] font-medium text-white">
-                      Phone or email
-                    </label>
-                    <input id={ids.reach} required maxLength={120} autoComplete="email" value={reach} onChange={(e) => setReach(e.target.value)} placeholder="+91 or you@business.in" className={`${field} mt-1.5`} />
+                    <Field id={ids.mobile} label="Mobile number" error={errors.mobile}>
+                      <div className="relative">
+                        <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[15px] text-muted">+91</span>
+                        <input id={ids.mobile} type="tel" inputMode="tel" autoComplete="tel-national" maxLength={20} value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="98765 43210" aria-invalid={!!errors.mobile} aria-describedby={errors.mobile ? `${ids.mobile}-err` : undefined} className={`${field} pl-12 ${errors.mobile ? '!border-crimson' : ''}`} />
+                      </div>
+                    </Field>
+                  </Item>
+                  <Item x={20} y={0}>
+                    <Field id={ids.email} label={<>Email <span className="font-normal text-muted">(optional)</span></>} error={errors.email}>
+                      <input id={ids.email} type="email" inputMode="email" autoComplete="email" maxLength={120} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@business.in" aria-invalid={!!errors.email} aria-describedby={errors.email ? `${ids.email}-err` : undefined} className={`${field} ${errors.email ? '!border-crimson' : ''}`} />
+                    </Field>
                   </Item>
                 </Stagger>
 
@@ -177,15 +239,27 @@ export default function Enquiry() {
                   </ul>
                 </div>
 
+                <Field id={ids.message} label={<>Anything we should know? <span className="font-normal text-muted">(optional)</span></>}>
+                  <textarea id={ids.message} rows={3} maxLength={1000} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="e.g. We run Tally Prime with 40 dealers across Krishna district." className={`${field} !h-auto resize-y py-2.5`} />
+                </Field>
+
                 <input type="text" name="website" value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 opacity-0" />
 
-                <button type="submit" disabled={status === 'sending' || status === 'sent'} className="btn-primary h-12 w-full text-[15.5px] disabled:opacity-70">
-                  {status === 'sending' ? 'Sending…' : status === 'sent' ? 'Sent' : 'Send enquiry'}
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                <button type="submit" disabled={status === 'sending'} className="btn-primary h-12 w-full text-[15.5px] disabled:opacity-70">
+                  {status === 'sending' ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      Send enquiry
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </>
+                  )}
                 </button>
                 <p role="status" aria-live="polite" className="-mt-2 text-center text-[13px] text-muted">
-                  {status === 'sent' && 'Thank you. We have your enquiry and will reply soon.'}
-                  {status === 'error' && (
+                                    {status === 'error' && (
                     <>
                       {errorMsg} Please{' '}
                       <a href={mailto} className="text-white underline underline-offset-4">
@@ -194,13 +268,30 @@ export default function Enquiry() {
                       .
                     </>
                   )}
-                  {(status === 'idle' || status === 'sending') && `We reply from ${site.email}.`}
+                  {status !== 'error' && 'We usually reply within one working day.'}
                 </p>
               </form>
+              )}
             </div>
           </div>
         </Reveal>
       </div>
     </section>
+  )
+}
+
+function Field({ id, label, error, children }) {
+  return (
+    <div>
+      <label htmlFor={id} className="font-display text-[13.5px] font-medium text-white">
+        {label}
+      </label>
+      <div className="mt-1.5">{children}</div>
+      {error && (
+        <p id={`${id}-err`} role="alert" className="mt-1.5 text-[13px] text-crimson">
+          {error}
+        </p>
+      )}
+    </div>
   )
 }

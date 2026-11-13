@@ -112,7 +112,7 @@ docker compose up -d --build
 Test it:
 
 ```bash
-curl -s -X POST https://eaglenexa.ai/api/enquiry -H 'Content-Type: application/json' -d '{"name":"Test","reach":"+910000000000"}'
+curl -s -X POST https://eaglenexa.ai/api/enquiry -H 'Content-Type: application/json' -d '{"name":"Test","mobile":"9876543210"}'
 ```
 
 `{"ok":true}` means the mail was accepted; check the hello@ inbox. If it returns 502, run `docker logs eaglenexa-api`.

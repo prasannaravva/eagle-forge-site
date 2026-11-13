@@ -37,6 +37,7 @@ http
   .createServer((req, res) => {
     if (req.url === '/healthz') return send(res, 200, { ok: true })
     if (req.url !== '/api/enquiry') return send(res, 404, { error: 'Not found.' })
+    console.log('enquiry request', req.method)
     if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed.' })
 
     const ip = req.headers['x-real-ip'] || req.socket.remoteAddress
@@ -54,9 +55,11 @@ http
       }
       if (limited(ip)) return send(res, 429, { error: 'Too many enquiries. Please try again in a few minutes.' })
       const parsed = parseEnquiry(body)
-      if (!parsed.ok) return parsed.silent ? send(res, 200, { ok: true }) : send(res, 400, { error: parsed.error })
+      if (!parsed.ok) return parsed.silent ? send(res, 200, { ok: true }) : send(res, 400, { errors: parsed.errors })
       try {
-        await transport.sendMail(buildMail(parsed.value, { from: FROM, to: TO }))
+        const info = await transport.sendMail(buildMail(parsed.value, { from: FROM, to: TO }))
+        console.log('enquiry mail', JSON.stringify({ id: info.messageId, accepted: info.accepted, rejected: info.rejected, response: info.response }))
+        if (!info.accepted?.length) throw new Error('recipient rejected by SMTP server')
         send(res, 200, { ok: true })
       } catch (err) {
         console.error('sendMail failed:', err.message)
@@ -64,4 +67,7 @@ http
       }
     })
   })
-  .listen(PORT, () => console.log(`enquiry api on :${PORT}`))
+  .listen(PORT, () => {
+    console.log(`enquiry api on :${PORT}, smtp ${transport.options.host}:${transport.options.port}, from ${FROM}, to ${TO}`)
+    transport.verify().then(() => console.log('smtp login ok'), (e) => console.error('smtp verify failed:', e.message))
+  })
